@@ -7,19 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5102B8D2C96365700B15833 /* UniversalMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5102B8B2C96365600B15833 /* UniversalMapService.swift */; };
+		A5102B8E2C96365700B15833 /* UniversalMapProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5102B8C2C96365700B15833 /* UniversalMapProtocol.swift */; };
 		A513DF362C922CCC00144F91 /* MapsPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A513DF352C922CCC00144F91 /* MapsPracticeApp.swift */; };
 		A513DF382C922CCC00144F91 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A513DF372C922CCC00144F91 /* ContentView.swift */; };
 		A513DF3A2C922CCD00144F91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A513DF392C922CCD00144F91 /* Assets.xcassets */; };
 		A513DF3D2C922CCD00144F91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A513DF3C2C922CCD00144F91 /* Preview Assets.xcassets */; };
 		A513DF452C922D1E00144F91 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = A513DF442C922D1E00144F91 /* GoogleMaps */; };
+		A57305062C944AC5004B04E6 /* MyAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57305052C944AC5004B04E6 /* MyAppDelegate.swift */; };
+		A5DE57512C970BEE000E495E /* UniversalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE57502C970BEE000E495E /* UniversalMapView.swift */; };
+		A5DE57532C974B99000E495E /* MKLocalSearchExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */; };
+		A5F2EB522C94EDD8006BEAB3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2EB512C94EDD8006BEAB3 /* SettingsView.swift */; };
+		A5F2EB552C94EE1E006BEAB3 /* MapConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2EB542C94EE1E006BEAB3 /* MapConfiguration.swift */; };
+		A5F2EB582C9500CD006BEAB3 /* FindMeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2EB572C9500CD006BEAB3 /* FindMeButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A5102B8B2C96365600B15833 /* UniversalMapService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniversalMapService.swift; sourceTree = "<group>"; };
+		A5102B8C2C96365700B15833 /* UniversalMapProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniversalMapProtocol.swift; sourceTree = "<group>"; };
 		A513DF322C922CCC00144F91 /* MapsPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A513DF352C922CCC00144F91 /* MapsPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsPracticeApp.swift; sourceTree = "<group>"; };
 		A513DF372C922CCC00144F91 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A513DF392C922CCD00144F91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A513DF3C2C922CCD00144F91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A57305052C944AC5004B04E6 /* MyAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppDelegate.swift; sourceTree = "<group>"; };
+		A5DE57502C970BEE000E495E /* UniversalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalMapView.swift; sourceTree = "<group>"; };
+		A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MKLocalSearchExample.swift; path = MapsPractice/MKLocalSearchExample.swift; sourceTree = SOURCE_ROOT; };
+		A5F2EB512C94EDD8006BEAB3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A5F2EB542C94EE1E006BEAB3 /* MapConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapConfiguration.swift; sourceTree = "<group>"; };
+		A5F2EB572C9500CD006BEAB3 /* FindMeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMeButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +69,11 @@
 		A513DF342C922CCC00144F91 /* MapsPractice */ = {
 			isa = PBXGroup;
 			children = (
+				A5DE574F2C970BC0000E495E /* MapUtilities */,
+				A5F2EB532C94EDE4006BEAB3 /* Enums */,
+				A5F2EB502C94EDC5006BEAB3 /* Views */,
 				A513DF352C922CCC00144F91 /* MapsPracticeApp.swift */,
+				A57305052C944AC5004B04E6 /* MyAppDelegate.swift */,
 				A513DF372C922CCC00144F91 /* ContentView.swift */,
 				A513DF392C922CCD00144F91 /* Assets.xcassets */,
 				A513DF3B2C922CCD00144F91 /* Preview Content */,
@@ -67,6 +87,34 @@
 				A513DF3C2C922CCD00144F91 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A5DE574F2C970BC0000E495E /* MapUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */,
+				A5102B8C2C96365700B15833 /* UniversalMapProtocol.swift */,
+				A5102B8B2C96365600B15833 /* UniversalMapService.swift */,
+			);
+			path = MapUtilities;
+			sourceTree = "<group>";
+		};
+		A5F2EB502C94EDC5006BEAB3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5DE57502C970BEE000E495E /* UniversalMapView.swift */,
+				A5F2EB572C9500CD006BEAB3 /* FindMeButtonView.swift */,
+				A5F2EB512C94EDD8006BEAB3 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A5F2EB532C94EDE4006BEAB3 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				A5F2EB542C94EE1E006BEAB3 /* MapConfiguration.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +193,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5DE57532C974B99000E495E /* MKLocalSearchExample.swift in Sources */,
 				A513DF382C922CCC00144F91 /* ContentView.swift in Sources */,
+				A5DE57512C970BEE000E495E /* UniversalMapView.swift in Sources */,
+				A5F2EB582C9500CD006BEAB3 /* FindMeButtonView.swift in Sources */,
+				A5102B8D2C96365700B15833 /* UniversalMapService.swift in Sources */,
+				A57305062C944AC5004B04E6 /* MyAppDelegate.swift in Sources */,
+				A5F2EB522C94EDD8006BEAB3 /* SettingsView.swift in Sources */,
+				A5102B8E2C96365700B15833 /* UniversalMapProtocol.swift in Sources */,
+				A5F2EB552C94EE1E006BEAB3 /* MapConfiguration.swift in Sources */,
 				A513DF362C922CCC00144F91 /* MapsPracticeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,6 +339,8 @@
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "To get the route from user location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "To get the route from user location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -295,9 +353,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.com.kucherenko.MapsPractice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -312,6 +374,8 @@
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "To get the route from user location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "To get the route from user location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,9 +388,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.com.kucherenko.MapsPractice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
