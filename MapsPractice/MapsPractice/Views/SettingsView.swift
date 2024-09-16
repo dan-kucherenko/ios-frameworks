@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     let mapService: UniversalMapService
 
+    @State var showLocationAlert = false
     @State var focusOnUser = false
     @State private var selectedMapRepresentation: MapConfiguration.Representaion = .standard
     @State private var selectedMapType: MapConfiguration.MapType = .googleMaps
@@ -23,15 +24,23 @@ struct SettingsView: View {
         .padding()
         .padding(.vertical)
         .padding(.bottom, 15)
-//        .background(.black.opacity(0.1))
         .background(BlurView(style: .systemMaterial))
         .onChange(of: focusOnUser) {
             guard let coordinates = UserLocationService.shared.manager.location?.coordinate else {
+                showLocationAlert = true
+                focusOnUser = false
                 return
             }
             
             mapService.centerOnUser(at: coordinates)
             focusOnUser = false
+        }
+        .alert("Location alert", isPresented: $showLocationAlert) {
+            Button("Ok") {
+                showLocationAlert = false
+            }
+        } message: {
+            Text("You haven't enabled the location sharing")
         }
         .onChange(of: selectedMapType) {
             mapService.switchProvider(to: selectedMapType.mapType)

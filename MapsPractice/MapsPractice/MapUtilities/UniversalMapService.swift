@@ -42,6 +42,10 @@ final class UniversalMapService: NSObject {
             mapView.frame = container.bounds
             mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
+            if let mkMapView = mapView as? MKMapView {
+                mkMapView.delegate = self
+            }
+            
             if self.mapView.needLongPressGesture {
                 mapView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(tapOnMap)))
             } else {
@@ -63,6 +67,11 @@ final class UniversalMapService: NSObject {
     // MARK: - Add pin on map
     func addPin(with title: String, to coordinate: CLLocationCoordinate2D) {
         mapView.addPin(with: title, to: coordinate)
+    }
+    
+    // MARK: - Search path from user to location
+    func searchPath(to location: CLLocationCoordinate2D) {
+        mapView.searchPath(to: location)
     }
     
     // MARK: - Map representation enum
@@ -95,5 +104,19 @@ final class UniversalMapService: NSObject {
 extension UniversalMapService: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         delegate?.mapView(mapView, didLongPressAt: coordinate)
+    }
+}
+
+
+// MARK: - Delegate for polyline
+extension UniversalMapService: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = .blue
+            renderer.lineWidth = 5.0
+            return renderer
+        }
+        return MKOverlayRenderer()
     }
 }

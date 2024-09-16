@@ -20,6 +20,7 @@ protocol UniversalMapProvider {
     
     func addPin(with title: String, to coordinate: CLLocationCoordinate2D)
     func centerOnUser(at location: CLLocationCoordinate2D)
+    func searchPath(to location: CLLocationCoordinate2D)
     
 }
 
@@ -62,6 +63,39 @@ extension MKMapView: UniversalMapProvider {
         )
         self.setCamera(camera, animated: true)
     }
+    
+    func searchPath(to location: CLLocationCoordinate2D) {
+        let userCoordinates = UserLocationService.shared.manager.location?.coordinate ?? CLLocationCoordinate2D()
+        let sourcePlaceMark = MKPlacemark(coordinate: userCoordinates)
+        let destinationPlaceMark = MKPlacemark(coordinate: location)
+        
+        let directionRequest = MKDirections.Request()
+        
+        directionRequest.source = MKMapItem(placemark: sourcePlaceMark)
+        directionRequest.destination = MKMapItem(placemark: destinationPlaceMark)
+        directionRequest.transportType = .automobile
+        
+        let direction = MKDirections(request: directionRequest)
+        
+        direction.calculate { [weak self] responce, error in
+            if let responce = responce, error == nil {
+                self?.drawRoute(with: responce.routes[0], userCoordinates: userCoordinates)
+            }
+        }
+    }
+    
+    private func drawRoute(with route: MKRoute, userCoordinates: CLLocationCoordinate2D) {
+        removeOverlays(self.overlays)
+        
+        addOverlay(route.polyline)
+        let rect = route.polyline.boundingMapRect
+        setRegion(MKCoordinateRegion(rect), animated: true)
+        
+        let userPosition = MKPointAnnotation()
+        userPosition.coordinate = userCoordinates
+        userPosition.title = "You"
+        addAnnotation(userPosition)
+    }
 }
 
 // MARK: - Google Maps
@@ -96,6 +130,10 @@ extension GMSMapView: UniversalMapProvider {
     func centerOnUser(at location: CLLocationCoordinate2D) {
         let location = GMSCameraPosition.camera(withTarget: location, zoom: 18)
         self.animate(to: location)
+    }
+    
+    func searchPath(to location: CLLocationCoordinate2D) {
+
     }
 }
 #endif
