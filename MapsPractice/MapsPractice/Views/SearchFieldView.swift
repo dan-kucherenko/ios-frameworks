@@ -12,12 +12,13 @@ struct SearchFieldView: View {
     
     @State private var userInput = ""
     @State private var showSearchAlert = false
+    @State private var showUserLocationAlert = false
     @State private var searchTimer: Timer?
     
     var body: some View {
         TextField("Search place...", text: $userInput)
             .tint(.secondary)
-            .padding(9)
+            .padding()
             .background(.background.opacity(0.9))
             .clipShape(RoundedRectangle(cornerRadius: 25))
             .padding()
@@ -27,6 +28,13 @@ struct SearchFieldView: View {
                 }
             } message: {
                 Text("Type more precise search query...")
+            }
+            .alert("Location alert", isPresented: $showUserLocationAlert) {
+                Button("Ok") {
+                    showUserLocationAlert = false
+                }
+            } message: {
+                Text("You haven't enabled the location sharing. Showing the place you've been searching")
             }
             .onChange(of: userInput) {
                 debounceSearch()
@@ -45,7 +53,6 @@ struct SearchFieldView: View {
         UserLocationService.shared.searchLocation(for: userInput)
         
         let places = UserLocationService.shared.lastSearchedPlaces
-        print(places)
         
         guard places.count > 0, places.count < 5 else {
             showSearchAlert = true
@@ -55,11 +62,16 @@ struct SearchFieldView: View {
         guard let place = places.first else { return }
         
         UserLocationService.shared.lastSearchedPlaces = []
+        
+        mapService.addPin(with: place.name, to: place.location)
+        guard let userLocation = UserLocationService.shared.currentLocation else {
+            showUserLocationAlert = true
+            return
+        }
         searchRoute(to: place)
     }
     
     private func searchRoute(to place: MyPlacePin) {
-        mapService.addPin(with: place.name, to: place.location)
         mapService.searchPath(to: place.location)
     }
 }

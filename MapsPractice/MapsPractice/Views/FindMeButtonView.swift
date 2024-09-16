@@ -14,7 +14,6 @@ struct FindMeButton: View {
     var body: some View {
         Button {
             focusOnUser = true
-            print("Find me clicked")
         } label: {
             Image(systemName: "location")
                 .resizable()

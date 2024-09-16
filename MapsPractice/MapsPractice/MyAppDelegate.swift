@@ -20,6 +20,6 @@ class MyAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
-        GMSServices.provideAPIKey("AIzaSyCajzW0-LkDmPYpc2B7p7ZK72B9ES8xUQE")
+        GMSServices.provideAPIKey("AIzaSyALh6FQ5hHZffihP8rt42mXPlGwXk6_mhA")
     }
 }

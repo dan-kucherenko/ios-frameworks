@@ -15,13 +15,17 @@ class UserLocationService {
     
     let manager = CLLocationManager()
     
+    var currentLocation: CLLocationCoordinate2D? {
+        return manager.location?.coordinate
+    }
+    
     func requestLocation() {
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
     }
     
     func searchLocation (for userRequest: String) {
-        let usCenterCoordinate = manager.location?.coordinate
+        let usCenterCoordinate = currentLocation
         let usRadius: CLLocationDistance = 500_000 // Radius in meters
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = userRequest

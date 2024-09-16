@@ -26,7 +26,7 @@ struct SettingsView: View {
         .padding(.bottom, 15)
         .background(BlurView(style: .systemMaterial))
         .onChange(of: focusOnUser) {
-            guard let coordinates = UserLocationService.shared.manager.location?.coordinate else {
+            guard let coordinates = UserLocationService.shared.currentLocation else {
                 showLocationAlert = true
                 focusOnUser = false
                 return
