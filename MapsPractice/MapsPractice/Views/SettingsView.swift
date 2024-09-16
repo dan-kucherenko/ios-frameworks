@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var focusOnUser: Bool
-    @Binding var selectedMapRepresentation: MapConfiguration.Representaion
-    @Binding var selectedMapType: MapConfiguration.MapType
-    
+    let mapService: UniversalMapService
+
+    @State var focusOnUser = false
+    @State private var selectedMapRepresentation: MapConfiguration.Representaion = .standard
+    @State private var selectedMapType: MapConfiguration.MapType = .googleMaps
+        
     var body: some View {
         VStack (spacing: 30) {
             findMeButtonView
@@ -23,6 +25,20 @@ struct SettingsView: View {
         .padding(.bottom, 15)
 //        .background(.black.opacity(0.1))
         .background(BlurView(style: .systemMaterial))
+        .onChange(of: focusOnUser) {
+            guard let coordinates = UserLocationService.shared.manager.location?.coordinate else {
+                return
+            }
+            
+            mapService.centerOnUser(at: coordinates)
+            focusOnUser = false
+        }
+        .onChange(of: selectedMapType) {
+            mapService.switchProvider(to: selectedMapType.mapType)
+        }
+        .onChange(of: selectedMapRepresentation) {
+            mapService.switchMapType(to: selectedMapRepresentation.mapRepresentation)
+        }
     }
 }
 
@@ -53,6 +69,7 @@ extension SettingsView {
     }
 }
 
+// MARK: - Utility struct for blur effect on settings view
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
     
@@ -67,9 +84,6 @@ struct BlurView: UIViewRepresentable {
 
 #Preview {
     SettingsView(
-        focusOnUser: .constant(false),
-        selectedMapRepresentation: .constant(.satellite),
-        selectedMapType: .constant(.googleMaps)
-    )
+        mapService: UniversalMapService())
 }
 
