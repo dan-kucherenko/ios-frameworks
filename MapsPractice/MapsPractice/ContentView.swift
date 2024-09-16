@@ -23,7 +23,6 @@ struct ContentView: View {
                 Spacer()
                 
                 SettingsView(mapService: mapService)
-                    .ignoresSafeArea()
             }
         }
         .onAppear {

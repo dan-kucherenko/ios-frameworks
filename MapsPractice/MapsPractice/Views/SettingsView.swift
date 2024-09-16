@@ -25,6 +25,8 @@ struct SettingsView: View {
         .padding(.vertical)
         .padding(.bottom, 15)
         .background(BlurView(style: .systemMaterial))
+        .clipShape(RoundedRectangle(cornerRadius: 25))
+        .padding(.horizontal)
         .onChange(of: focusOnUser) {
             guard let coordinates = UserLocationService.shared.currentLocation else {
                 showLocationAlert = true
