@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Binding var focusOnUser: Bool
     @Binding var selectedMapRepresentation: MapConfiguration.Representaion
     @Binding var selectedMapType: MapConfiguration.MapType
     
@@ -27,7 +28,7 @@ struct SettingsView: View {
 
 extension SettingsView {
     private var findMeButtonView: some View {
-        FindMeButton()
+        FindMeButton(focusOnUser: $focusOnUser)
             .frame(width: 50, height: 50)
     }
     
@@ -65,6 +66,10 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    SettingsView(selectedMapRepresentation: .constant(.satellite), selectedMapType: .constant(.googleMaps))
+    SettingsView(
+        focusOnUser: .constant(false),
+        selectedMapRepresentation: .constant(.satellite),
+        selectedMapType: .constant(.googleMaps)
+    )
 }
 

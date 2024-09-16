@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FindMeButton: View {
+    @Binding var focusOnUser: Bool
+    
     var body: some View {
         Button {
+            focusOnUser = true
             print("Find me clicked")
         } label: {
             Image(systemName: "location")
@@ -25,5 +29,5 @@ struct FindMeButton: View {
 }
 
 #Preview {
-    FindMeButton()
+    FindMeButton(focusOnUser: .constant(false))
 }

@@ -13,6 +13,7 @@ struct ContentView: View {
     private let mapService = UniversalMapService()
     
     @State private var userInput = ""
+    @State var focusOnUser = false
     @State private var selectedMapRepresentation: MapConfiguration.Representaion = .standard
     @State private var selectedMapType: MapConfiguration.MapType = .googleMaps
     
@@ -31,10 +32,24 @@ struct ContentView: View {
                 Spacer()
                 
                 SettingsView(
+                    focusOnUser: $focusOnUser,
                     selectedMapRepresentation: $selectedMapRepresentation,
                     selectedMapType: $selectedMapType
                 )
                 .ignoresSafeArea()
+            }
+        }
+        .onAppear {
+            UserLocationService.shared.requestLocation()
+        }
+        .onChange(of: focusOnUser) {
+            guard let coordinates = UserLocationService.shared.manager.location?.coordinate else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                mapService.centerOnUser(at: coordinates)
+                focusOnUser = false
             }
         }
         .onChange(of: selectedMapType) {
