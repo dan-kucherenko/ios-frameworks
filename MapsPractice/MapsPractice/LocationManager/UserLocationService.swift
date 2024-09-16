@@ -26,11 +26,14 @@ class UserLocationService {
     
     func searchLocation (for userRequest: String) {
         let usCenterCoordinate = currentLocation
-        let usRadius: CLLocationDistance = 500_000 // Radius in meters
+        let usRadius: CLLocationDistance = 500_000
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = userRequest
         request.region = MKCoordinateRegion(
-            center: usCenterCoordinate ?? CLLocationCoordinate2D(),
+            center: usCenterCoordinate ?? CLLocationCoordinate2D(
+                latitude: 50.401568672490086,
+                longitude: 30.52672764239841
+            ),
             latitudinalMeters: usRadius * 2,
             longitudinalMeters: usRadius * 2
         )
