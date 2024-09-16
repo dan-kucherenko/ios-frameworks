@@ -16,7 +16,7 @@ struct UniversalMapView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> UIView {
-        return self.mapService.container
+        self.mapService.container
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {

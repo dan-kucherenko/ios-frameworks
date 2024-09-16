@@ -12,24 +12,18 @@ import GoogleMaps
 struct ContentView: View {
     private let mapService = UniversalMapService()
     
-    @State private var userInput = ""
-    
     var body: some View {
         ZStack {
             UniversalMapView(mapService: mapService)
                 .ignoresSafeArea()
             
             VStack {
-                TextField("User input is here", text: $userInput)
-                    .padding(7)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                    .padding()
+                SearchFieldView(mapService: mapService)
                 
                 Spacer()
                 
                 SettingsView(mapService: mapService)
-                .ignoresSafeArea()
+                    .ignoresSafeArea()
             }
         }
         .onAppear {
