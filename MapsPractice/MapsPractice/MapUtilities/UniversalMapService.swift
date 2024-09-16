@@ -50,6 +50,11 @@ final class UniversalMapService: NSObject {
         }
     }
     
+    // MARK: - Center camera on user
+    func centerOnUser(at location: CLLocationCoordinate2D) {
+        mapView.centerOnUser(at: location)
+    }
+    
     // MARK: - Change the representation of the map
     func switchMapType(to type: Configuration.MapType) {
         mapView.universalMapConfiguration.mapType = type

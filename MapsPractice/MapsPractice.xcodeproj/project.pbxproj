@@ -15,6 +15,7 @@
 		A513DF3D2C922CCD00144F91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A513DF3C2C922CCD00144F91 /* Preview Assets.xcassets */; };
 		A513DF452C922D1E00144F91 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = A513DF442C922D1E00144F91 /* GoogleMaps */; };
 		A57305062C944AC5004B04E6 /* MyAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57305052C944AC5004B04E6 /* MyAppDelegate.swift */; };
+		A59664252C9790BF003B17DE /* UserLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59664242C9790BF003B17DE /* UserLocationService.swift */; };
 		A5DE57512C970BEE000E495E /* UniversalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE57502C970BEE000E495E /* UniversalMapView.swift */; };
 		A5DE57532C974B99000E495E /* MKLocalSearchExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */; };
 		A5F2EB522C94EDD8006BEAB3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2EB512C94EDD8006BEAB3 /* SettingsView.swift */; };
@@ -31,6 +32,7 @@
 		A513DF392C922CCD00144F91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A513DF3C2C922CCD00144F91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A57305052C944AC5004B04E6 /* MyAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppDelegate.swift; sourceTree = "<group>"; };
+		A59664242C9790BF003B17DE /* UserLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationService.swift; sourceTree = "<group>"; };
 		A5DE57502C970BEE000E495E /* UniversalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalMapView.swift; sourceTree = "<group>"; };
 		A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MKLocalSearchExample.swift; path = MapsPractice/MKLocalSearchExample.swift; sourceTree = SOURCE_ROOT; };
 		A5F2EB512C94EDD8006BEAB3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -89,9 +91,18 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		A59664232C9790A6003B17DE /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				A59664242C9790BF003B17DE /* UserLocationService.swift */,
+			);
+			path = LocationManager;
+			sourceTree = "<group>";
+		};
 		A5DE574F2C970BC0000E495E /* MapUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				A59664232C9790A6003B17DE /* LocationManager */,
 				A5DE57522C974B99000E495E /* MKLocalSearchExample.swift */,
 				A5102B8C2C96365700B15833 /* UniversalMapProtocol.swift */,
 				A5102B8B2C96365600B15833 /* UniversalMapService.swift */,
@@ -196,6 +207,7 @@
 				A5DE57532C974B99000E495E /* MKLocalSearchExample.swift in Sources */,
 				A513DF382C922CCC00144F91 /* ContentView.swift in Sources */,
 				A5DE57512C970BEE000E495E /* UniversalMapView.swift in Sources */,
+				A59664252C9790BF003B17DE /* UserLocationService.swift in Sources */,
 				A5F2EB582C9500CD006BEAB3 /* FindMeButtonView.swift in Sources */,
 				A5102B8D2C96365700B15833 /* UniversalMapService.swift in Sources */,
 				A57305062C944AC5004B04E6 /* MyAppDelegate.swift in Sources */,
@@ -339,10 +351,8 @@
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "To get the route from user location";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "To get the route from user location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To get the path from user to destination";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -374,10 +384,8 @@
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "To get the route from user location";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "To get the route from user location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To get the path from user to destination";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
