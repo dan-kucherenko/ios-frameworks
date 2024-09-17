@@ -12,9 +12,7 @@ class MyAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-    ) {
-        // Record the device token.
-    }
+    ) {}
     
     func application(
         _ application: UIApplication,

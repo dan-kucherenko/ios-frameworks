@@ -61,9 +61,8 @@ extension SettingsView {
     
     private var mapProviderPickerView: some View {
         Picker("Map Type", selection: $selectedMapType) {
-            ForEach(0..<MapConfiguration.MapType.allCases.count) {
-                Text(MapConfiguration.MapType.allCases[$0].rawValue)
-                    .tag(MapConfiguration.MapType.allCases[$0])
+            ForEach(MapConfiguration.MapType.allCases, id: \.self) { item in
+                Text(item.rawValue)
             }
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -71,9 +70,8 @@ extension SettingsView {
     
     private var mapRepresentationPickerView: some View {
         Picker("Map Representation", selection: $selectedMapRepresentation) {
-            ForEach(0..<MapConfiguration.Representaion.allCases.count) {
-                Text(MapConfiguration.Representaion.allCases[$0].rawValue)
-                    .tag(MapConfiguration.Representaion.allCases[$0])
+            ForEach(MapConfiguration.Representaion.allCases, id: \.self) { item in
+                Text(item.rawValue)
             }
         }
         .pickerStyle(SegmentedPickerStyle())

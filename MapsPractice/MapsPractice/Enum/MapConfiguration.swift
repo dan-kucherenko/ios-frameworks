@@ -25,6 +25,8 @@ struct MapConfiguration {
     }
     
     enum Representaion: String, CaseIterable {
+//        var id: Self { self }і
+        
         case standard = "Standard"
         case satellite = "Satellite"
         case hybrid = "Hybrid"

@@ -21,8 +21,6 @@ struct UniversalMapView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIView, context: Context) {
     }
-    
-    typealias UIViewType = UIView
 }
 
 #Preview {
