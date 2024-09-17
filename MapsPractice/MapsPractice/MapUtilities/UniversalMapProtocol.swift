@@ -47,6 +47,7 @@ extension MKMapView: UniversalMapProvider {
     }
     
     func addPin(with title: String, to coordinate: CLLocationCoordinate2D) {
+        removeAnnotations(annotations)
         let annotation = MKPointAnnotation()
         annotation.title = title
         annotation.coordinate = coordinate
