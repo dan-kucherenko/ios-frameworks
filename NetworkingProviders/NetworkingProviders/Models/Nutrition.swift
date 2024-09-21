@@ -10,6 +10,15 @@ struct Nutrition: Decodable {
     let fat: NutritionParts
     let protein: NutritionParts
     let carbs: NutritionParts
+    
+    var description: String {
+        """
+            Calories: \(calories.value), 
+            Fat: \(fat.value), 
+            Protein: \(protein.value), 
+            Carbs: \(carbs.value)
+        """
+    }
 }
 
 struct NutritionParts: Decodable {

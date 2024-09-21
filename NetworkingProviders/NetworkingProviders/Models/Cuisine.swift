@@ -6,5 +6,5 @@
 //
 
 struct Cuisine: Decodable {
-    let cuisine: String
+    let cuisineName: String
 }
