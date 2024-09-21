@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A54BA1162C9D90C80028552F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A54BA1152C9D90C80028552F /* Kingfisher */; };
+		A5CB13FC2C9B8AF700F14A8B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A5CB13FB2C9B8AF700F14A8B /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A5AA74A12C9B803B00D8ADF2 /* NetworkingProviders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkingProviders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54BA1162C9D90C80028552F /* Kingfisher in Frameworks */,
+				A5CB13FC2C9B8AF700F14A8B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = NetworkingProviders;
 			packageProductDependencies = (
+				A5CB13FB2C9B8AF700F14A8B /* Alamofire */,
+				A54BA1152C9D90C80028552F /* Kingfisher */,
 			);
 			productName = NetworkingProviders;
 			productReference = A5AA74A12C9B803B00D8ADF2 /* NetworkingProviders.app */;
@@ -94,6 +103,10 @@
 			);
 			mainGroup = A5AA74982C9B803B00D8ADF2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A5CB13FA2C9B8AF700F14A8B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				A54BA1142C9D90C80028552F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A5AA74A22C9B803B00D8ADF2 /* Products */;
 			projectDirPath = "";
@@ -251,7 +264,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"NetworkingProviders/Preview Content\"";
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -280,7 +292,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"NetworkingProviders/Preview Content\"";
 				DEVELOPMENT_TEAM = D85QWSUNYA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -324,6 +335,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A54BA1142C9D90C80028552F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.1;
+			};
+		};
+		A5CB13FA2C9B8AF700F14A8B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A54BA1152C9D90C80028552F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A54BA1142C9D90C80028552F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		A5CB13FB2C9B8AF700F14A8B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5CB13FA2C9B8AF700F14A8B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A5AA74992C9B803B00D8ADF2 /* Project object */;
 }
