@@ -21,15 +21,15 @@ class AlamofireNetworkManager: NetworkingProvider {
     
     func getDetailedRecipe(id: Int) async throws -> RecipeDetails {
         try await AF.request(
-            NetworkingConstants.recipeDetails + String(id) + "/information",
+            NetworkingConstants.recipeDetails + id.description + "/information",
             headers: headers
         )
         .serializingDecodable(RecipeDetails.self).value
     }
     
-    func guessNutrition(dishName: String) async throws -> Nutrition {
+    func guessNutrition(dishId: Int) async throws -> Nutrition {
         try await AF.request(
-            NetworkingConstants.guessNutrition + dishName,
+            NetworkingConstants.guessNutrition + dishId.description + "/nutritionWidget.json",
             headers: headers
         )
         .serializingDecodable(Nutrition.self).value

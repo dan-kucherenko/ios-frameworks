@@ -44,7 +44,7 @@ extension RecipeCell {
             
             Button("Nutrition") {
                 Task {
-                    await viewModel.getNutrition(dishName: recipe.title)
+                    await viewModel.getNutrition(dishId: recipe.id)
                     showNutrition = true
                 }
             }
