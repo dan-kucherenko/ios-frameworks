@@ -5,6 +5,6 @@
 //  Created by Daniil on 19.09.2024.
 //
 
-struct Cuisine: Decodable {
-    let cuisineName: String
+struct Cuisine: Codable {
+    let cuisine: String
 }

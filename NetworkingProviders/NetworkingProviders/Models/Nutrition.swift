@@ -5,7 +5,7 @@
 //  Created by Daniil on 19.09.2024.
 //
 
-struct Nutrition: Decodable {
+struct Nutrition: Codable {
     let calories: String
     let fat: String
     let protein: String
@@ -22,10 +22,10 @@ struct Nutrition: Decodable {
     
     static var mock: Nutrition {
         Nutrition(
-            calories: "123",
-            fat: "456",
-            protein: "678",
-            carbs: "987"
+            calories: "mock calories",
+            fat: "mock fat",
+            protein: "mock protein",
+            carbs: "mock carbs"
         )
     }
 }

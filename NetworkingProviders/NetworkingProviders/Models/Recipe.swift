@@ -5,14 +5,14 @@
 //  Created by Daniil on 19.09.2024.
 //
 
-struct RecipeApiResponse: Decodable {
+struct RecipeApiResponse: Codable {
     let results: [Recipe]
     let offset: Int
     let number: Int
     let totalResults: Int
 }
 
-struct Recipe: Decodable, Hashable {
+struct Recipe: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
     let image: String?
