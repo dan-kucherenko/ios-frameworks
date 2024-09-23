@@ -34,7 +34,7 @@ struct RecipeDetailsView: View {
                 showNutrition = false
             }
         } message: {
-            Text(viewModel.nutrition.description)
+            Text(viewModel.nutrition?.description ?? "No nutrition info found")
         }
     }
 }
@@ -46,7 +46,7 @@ extension RecipeDetailsView {
                 Text(recipe.title)
                     .font(.title2)
                     .bold()
-                Text("Cuisine: \(viewModel.cuisine.cuisineName)")
+                Text("Cuisine: \(viewModel.cuisine?.cuisine ?? "Error getting cuisine")")
             }
             
             Spacer()

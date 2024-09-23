@@ -16,7 +16,7 @@ struct RecipesView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.recipes ?? [.mock], id: \.self) { recipe in
+                    ForEach(viewModel.recipes) { recipe in
                         NavigationLink(value: recipe) {
                             RecipeCell(
                                 recipe: recipe,
@@ -29,15 +29,27 @@ struct RecipesView: View {
                             print("Sending request")
                             Task {
                                 await viewModel.getRecipeDetails(recipeId: recipe.id)
+                                
+                                guard let recipeDetails = viewModel.selectedRecipeDetails else { return }
+
+                                await viewModel.getCuisine(
+                                    dishName: viewModel.selectedRecipeDetails?.title ?? "",
+                                    ingredients: recipeDetails.ingredientsFormated
+                                )
                             }
                         })
                     }
                 }
                 .searchable(text: $userInput)
+                .onSubmit(of: .search) {
+                    Task {
+                        await viewModel.getRecipes(userInput: userInput)
+                    }
+                }
                 .navigationTitle("Recipes")
                 .navigationDestination(for: Recipe.self) {_ in
                     RecipeDetailsView(
-                        recipe: viewModel.selectedRecipeDetails
+                        recipe: viewModel.selectedRecipeDetails ?? .mock
                     )
                     .environmentObject(viewModel)
                 }
@@ -48,10 +60,7 @@ struct RecipesView: View {
                 showNutrition = false
             }
         } message: {
-            Text(viewModel.nutrition.description)
-        }
-        .task {
-            await viewModel.getRecipes(userInput: userInput)
+            Text(viewModel.nutrition?.description ?? "No nutrition info found")
         }
     }
 }
