@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class RecipesViewModel: ObservableObject {
-    @Published var recipes: [Recipe]?
+    @Published var recipes: [Recipe] = []
     @Published var nutrition: Nutrition?
     @Published var selectedRecipeDetails: RecipeDetails?
     @Published var cuisine: Cuisine?
@@ -30,17 +30,15 @@ class RecipesViewModel: ObservableObject {
         do {
             selectedRecipeDetails = try await networkingProvider.getDetailedRecipe(id: recipeId)
         } catch {
-            selectedRecipeDetails = nil
             print(error.localizedDescription)
         }
     }
     
     // MARK: - Get nutrition info by dish name
-    func getNutrition(dishName: String) async {
+    func getNutrition(dishId: Int) async {
         do {
-            nutrition = try await networkingProvider.guessNutrition(dishName: dishName)
+            nutrition = try await networkingProvider.guessNutrition(dishId: dishId)
         } catch {
-            nutrition = nil
             print(error.localizedDescription)
         }
     }
@@ -50,7 +48,6 @@ class RecipesViewModel: ObservableObject {
         do {
             cuisine = try await networkingProvider.classifyCuisine(dishName: dishName, ingredients: ingredients)
         } catch {
-            cuisine = nil
             print(error.localizedDescription)
         }
     }
