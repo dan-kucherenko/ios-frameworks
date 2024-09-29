@@ -118,7 +118,6 @@ final class MediaRecordingManager: NSObject {
         print("Camera changed to \(currentCamera)")
     }
 
-    
     // MARK: - Add audio input to the recording session
     private func addAudioInput() {
         let audioDevice = AVCaptureDevice.default(for: .audio)
@@ -157,7 +156,7 @@ final class MediaRecordingManager: NSObject {
             if captureSession.canAddOutput(photoOutput) {
                 captureSession.addOutput(photoOutput)
             } else {
-                print("Error: Unable to add photo output")
+                print("Unable to add photo output")
             }
         }
         
@@ -165,7 +164,7 @@ final class MediaRecordingManager: NSObject {
             if captureSession.canAddOutput(videoOutput) {
                 captureSession.addOutput(videoOutput)
             } else {
-                print("Error: Unable to add video output")
+                print("Unable to add video output")
             }
         }
     }
@@ -180,6 +179,7 @@ final class MediaRecordingManager: NSObject {
     }
 }
 
+// MARK: - AVCaptureFileOutputRecordingDelegate for handling video output
 extension MediaRecordingManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let error = error {
