@@ -10,8 +10,11 @@ import SwiftUI
 struct CameraFooterView: View {
     @State private var isVideoRecording = false
     
+    weak var galleryDelegate: GalleryPresenterDelegate?
+    
     var body: some View {
-        HStack(spacing: 35) {
+        HStack(spacing: 30) {
+            galleryImage
             photoCapturingButton
             videoRecordingButton
             changeCameraButton
@@ -25,6 +28,19 @@ struct CameraFooterView: View {
 
 extension CameraFooterView {
     @ViewBuilder
+    private var galleryImage: some View {
+        Button {
+            galleryDelegate?.didClickGallery()
+        } label: {
+            Image(systemName: "photo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 35)
+        }
+        .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder
     private var photoCapturingButton: some View {
         Button {
             MediaRecordingManager.shared.takePhoto()
@@ -32,8 +48,8 @@ extension CameraFooterView {
             Image(systemName: "camera.aperture")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 30, height: 30)
-                .padding(7)
+                .frame(width: 25, height: 25)
+                .padding(5)
         }
         .tint(.primary)
         .buttonStyle(.bordered)
@@ -53,8 +69,8 @@ extension CameraFooterView {
             Image(systemName: isVideoRecording ? "record.circle.fill" : "record.circle")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 30, height: 30)
-                .padding(7)
+                .frame(width: 25, height: 25)
+                .padding(5)
         }
         .tint(.primary)
         .buttonStyle(.bordered)
@@ -69,9 +85,9 @@ extension CameraFooterView {
         } label: {
             Image(systemName: "arrow.triangle.2.circlepath.camera")
                 .resizable()
-                .frame(width: 38, height: 30)
                 .scaledToFit()
-                .padding(7)
+                .frame(width: 25, height: 25)
+                .padding(5)
         }
         .tint(.primary)
         .buttonStyle(.bordered)
@@ -79,10 +95,6 @@ extension CameraFooterView {
         .opacity(isVideoRecording ? 0 : 1)
         .scaleEffect(isVideoRecording ? 0.5 : 1)
         .animation(.easeInOut(duration: 0.2), value: isVideoRecording)
-    }
-    
-    private func changeCamera() {
-        
     }
 }
 

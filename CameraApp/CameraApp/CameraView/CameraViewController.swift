@@ -28,7 +28,10 @@ class CameraViewController: UIViewController {
     
     // MARK: - Configuring SwiftUI setting view
     private func configureSettingsView() {
-        let settingsController = UIHostingController(rootView: CameraFooterView())
+        var settingsSwiftuiController = CameraFooterView()
+        settingsSwiftuiController.galleryDelegate = self
+        
+        let settingsController = UIHostingController(rootView: settingsSwiftuiController)
         addChild(settingsController)
         settingsController.didMove(toParent: self)
         
@@ -41,6 +44,17 @@ class CameraViewController: UIViewController {
             settingsView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             settingsView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
         ])
+    }
+    
+    private func configureGalleryView() {
+        let galleryViewController = UIHostingController(rootView: GalleryView(navigationController: self.navigationController ?? UINavigationController()))
+        self.navigationController?.pushViewController(galleryViewController, animated: true)
+    }
+}
+
+extension CameraViewController: GalleryPresenterDelegate {
+    func didClickGallery() {
+        configureGalleryView()
     }
 }
 
