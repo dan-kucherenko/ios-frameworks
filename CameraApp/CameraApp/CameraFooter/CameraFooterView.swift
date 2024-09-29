@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CameraFooterView: View {
     @State private var isVideoRecording = false
-    weak var delegate: CameraStateDelegate?
     
     var body: some View {
         HStack(spacing: 35) {
@@ -44,7 +43,7 @@ extension CameraFooterView {
     @ViewBuilder
     private var videoRecordingButton: some View {
         Button {
-            if isVideoRecording {
+            if !isVideoRecording {
                 MediaRecordingManager.shared.startRecording()
             } else {
                 MediaRecordingManager.shared.stopRecording()
@@ -67,7 +66,6 @@ extension CameraFooterView {
         Button {
             print("Change camera")
             MediaRecordingManager.shared.changeCamera()
-            delegate?.didChangeCamera()
         } label: {
             Image(systemName: "arrow.triangle.2.circlepath.camera")
                 .resizable()
@@ -78,6 +76,9 @@ extension CameraFooterView {
         .tint(.primary)
         .buttonStyle(.bordered)
         .clipShape(Circle())
+        .opacity(isVideoRecording ? 0 : 1)
+        .scaleEffect(isVideoRecording ? 0.5 : 1)
+        .animation(.easeInOut(duration: 0.2), value: isVideoRecording)
     }
     
     private func changeCamera() {
