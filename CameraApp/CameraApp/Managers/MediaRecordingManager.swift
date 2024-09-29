@@ -50,6 +50,8 @@ final class MediaRecordingManager: NSObject {
     private var currentCamera: CameraType = .back
     private var isRecording = false
     
+    private override init() {}
+    
     func startSession(with camera: CameraType = .back) {
         configureSession(with: camera)
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
