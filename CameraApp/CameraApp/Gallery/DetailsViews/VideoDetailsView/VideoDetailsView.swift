@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AVFoundation
+import Photos
 
 struct VideoDetailsView: View {
     let file: URL
@@ -15,11 +15,16 @@ struct VideoDetailsView: View {
     @State private var videoIsSaved: Bool = false
 
     var body: some View {
-        VStack {
-            VideoPlayerView(player: videoPlayer.player ?? AVPlayer())
-                .frame(height: 300)
-                
-            VideoControllersView(videoPlayer: videoPlayer)
+        ZStack {
+            VideoPlayerView(customVideoPlayer: videoPlayer)
+                    .ignoresSafeArea()
+            VStack {
+                Spacer()
+                VideoControllersView(videoPlayer: self.videoPlayer)
+                    .padding()
+                    .background(BlurView(style: .regular))
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+            }
         }
         .onAppear {
             videoPlayer.setupPlayer(with: file)
@@ -37,12 +42,26 @@ struct VideoDetailsView: View {
 extension VideoDetailsView {
     private var saveButton: some View {
         Button {
-            //            saveToPhotoLibrary(file: file)
+            saveVideoToLibrary(file: file)
             videoIsSaved = true
         } label: {
             Image(systemName: "square.and.arrow.down")
                 .resizable()
                 .imageScale(.large)
+        }
+    }
+    
+    private func saveVideoToLibrary(file: URL) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: file)
+        }) { saved, error in
+            if saved {
+                print("Video saved to gallery")
+            } else if let error = error {
+                print("Error saving video: \(error.localizedDescription)")
+            } else {
+                print("Unknown error occurred while saving the video")
+            }
         }
     }
 }

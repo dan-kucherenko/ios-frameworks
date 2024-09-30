@@ -14,7 +14,7 @@ struct VideoControllersView: View {
     var videoPlayer: VideoPlayable?
     
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 20) {
             backwardBtnView
             playPauseBtnView
             nextTrackBtnView
@@ -25,7 +25,7 @@ struct VideoControllersView: View {
 
 extension VideoControllersView {
     private var backwardBtnView: some View {
-        VideoPlayerButton(imageName: "backward.end.fill", size: .title2) {
+        VideoPlayerButton(imageName: "backward.end.fill", size: .largeTitle) {
 //            videoPlayer?.setNewFile(file: <#T##URL#>)
         }
     }
@@ -33,21 +33,21 @@ extension VideoControllersView {
     private var playPauseBtnView: some View {
         VideoPlayerButton(imageName: isPlaying ? "pause.fill" : "play.fill",
                           size: .largeTitle) {
-            isPlaying ? videoPlayer?.pause() : videoPlayer?.play()
             isPlaying.toggle()
+            isPlaying ? videoPlayer?.play() : videoPlayer?.pause()
         }
     }
 
     private var nextTrackBtnView: some View {
-        VideoPlayerButton(imageName: "forward.end.fill", size: .title2) {
+        VideoPlayerButton(imageName: "forward.end.fill", size: .largeTitle) {
             // Change track to next
         }
     }
     
     private var muteButtonView: some View {
-        VideoPlayerButton(imageName: isMuted ? "speaker.slash.fill" : "speaker.fill", size: .title2) {
-            videoPlayer?.setPlayerVolume()
+        VideoPlayerButton(imageName: isMuted ? "speaker.slash.fill" : "speaker.fill", size: .largeTitle) {
             isMuted.toggle()
+            videoPlayer?.setPlayerVolume()
         }
     }
 }

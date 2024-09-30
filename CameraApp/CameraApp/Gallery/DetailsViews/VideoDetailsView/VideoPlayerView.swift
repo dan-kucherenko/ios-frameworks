@@ -9,20 +9,33 @@ import SwiftUI
 import AVFoundation
 
 struct VideoPlayerView: UIViewRepresentable {
-    let player: AVPlayer
-    
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = .resizeAspect
-        playerLayer.frame = view.bounds
-        view.layer.addSublayer(playerLayer)
+    @ObservedObject var customVideoPlayer: VideoPlayer
+
+    func makeUIView(context: Context) -> PlayerUIView {
+        let view = PlayerUIView()
+        view.playerLayer.player = customVideoPlayer.player
+        view.playerLayer.videoGravity = .resizeAspectFill
         return view
     }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {
-        if let playerLayer = uiView.layer.sublayers?.first as? AVPlayerLayer {
-            playerLayer.player = player
+
+    func updateUIView(_ uiView: PlayerUIView, context: Context) {
+        if uiView.playerLayer.player != customVideoPlayer.player {
+            uiView.playerLayer.player = customVideoPlayer.player
         }
+    }
+}
+
+class PlayerUIView: UIView {
+    var playerLayer: AVPlayerLayer {
+        layer as! AVPlayerLayer
+    }
+
+    override class var layerClass: AnyClass {
+        AVPlayerLayer.self
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
     }
 }
