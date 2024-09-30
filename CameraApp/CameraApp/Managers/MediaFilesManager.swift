@@ -9,7 +9,7 @@ import Foundation
 
 final class MediaFilesManager {
     static let shared = MediaFilesManager()
-        
+    
     private init() {}
     
     func getAllFiles() -> [URL]? {
