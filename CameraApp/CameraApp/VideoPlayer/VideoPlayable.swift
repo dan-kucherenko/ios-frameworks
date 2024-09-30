@@ -10,9 +10,10 @@ import Foundation
 protocol VideoPlayable {
     var isMuted: Bool { get }
 
-    func setupPlayer(with url: URL)
+    func setupPlayer(with url: URL, videoHasFinishedCompletion: @escaping () -> Void)
     func play()
     func pause()
     func setPlayerVolume()
-    func setNewFile(file: URL)
+    func setNewFile(file: URL, videoHasFinishedCompletion: @escaping () -> Void)
+    func videoDidFinishPlaying()
 }

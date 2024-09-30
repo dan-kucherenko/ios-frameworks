@@ -12,32 +12,34 @@ struct GalleryView: View {
     @State var files: [URL]?
     
     var body: some View {
-            List {
-                if let files = files {
-                    ForEach(files, id: \.self) { file in
-                        Button {
-                            pushDetailsVc(for: file)
-                        } label: {
-                            Text(file.lastPathComponent)
-                        }
-                        .buttonStyle(.plain)
+        List {
+            if let files = files {
+                ForEach(files, id: \.self) { file in
+                    Button {
+                        pushDetailsVc(for: file)
+                    } label: {
+                        Text(file.lastPathComponent)
                     }
-                } else {
-                    Text("Loading files...")
+                    .buttonStyle(.plain)
                 }
+            } else {
+                Text("Loading files...")
             }
-            .onAppear {
-                files = MediaFilesManager.shared.getAllFiles()
-            }
-            
         }
+        .onAppear {
+            files = MediaFilesManager.shared.getAllFiles()
+        }
+    }
 }
 
 extension GalleryView {
     private func pushDetailsVc(for file: URL) {
         let detailVC: UIViewController
         if file.pathExtension.lowercased() == "mp4" {
-            detailVC = UIHostingController(rootView: VideoDetailsView(file: file))
+            let resultFiles = files?.filter { file in
+                file.lastPathComponent.hasSuffix(".mp4")
+            }
+            detailVC = UIHostingController(rootView: VideoDetailsView(file: file, videoFiles: resultFiles))
         } else if file.pathExtension.lowercased() == "jpg" || file.pathExtension.lowercased() == "jpeg" {
             detailVC = UIHostingController(rootView: PhotoDetailsView(file: file))
         } else {

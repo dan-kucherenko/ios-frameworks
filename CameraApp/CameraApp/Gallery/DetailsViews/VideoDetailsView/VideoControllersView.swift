@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct VideoControllersView: View {
-    @State var isPlaying = false
+    @Binding var isPlaying: Bool
     @State var isMuted = false
     
     var videoPlayer: VideoPlayable?
+    
+    @Binding var loadNextVideo: Bool
+    @Binding var loadPreviousVideo: Bool
     
     var body: some View {
         HStack(spacing: 20) {
@@ -26,10 +29,10 @@ struct VideoControllersView: View {
 extension VideoControllersView {
     private var backwardBtnView: some View {
         VideoPlayerButton(imageName: "backward.end.fill", size: .largeTitle) {
-//            videoPlayer?.setNewFile(file: <#T##URL#>)
+            loadPreviousVideo.toggle()
         }
     }
-
+    
     private var playPauseBtnView: some View {
         VideoPlayerButton(imageName: isPlaying ? "pause.fill" : "play.fill",
                           size: .largeTitle) {
@@ -37,10 +40,10 @@ extension VideoControllersView {
             isPlaying ? videoPlayer?.play() : videoPlayer?.pause()
         }
     }
-
+    
     private var nextTrackBtnView: some View {
         VideoPlayerButton(imageName: "forward.end.fill", size: .largeTitle) {
-            // Change track to next
+            loadNextVideo.toggle()
         }
     }
     
@@ -54,7 +57,8 @@ extension VideoControllersView {
 
 #Preview {
     VideoControllersView(
-        isPlaying: false,
-        isMuted: false
+        isPlaying: .constant(false),
+        loadNextVideo: .constant(false),
+        loadPreviousVideo: .constant(false)
     )
 }

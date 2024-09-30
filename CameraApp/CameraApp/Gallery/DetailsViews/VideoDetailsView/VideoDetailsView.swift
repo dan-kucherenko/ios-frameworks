@@ -10,9 +10,14 @@ import Photos
 
 struct VideoDetailsView: View {
     let file: URL
+    let videoFiles: [URL]?
     
     @StateObject private var videoPlayer = VideoPlayer.shared
-    @State private var videoIsSaved: Bool = false
+    @State private var videoIsSaved = false
+    @State private var isPlaying = false
+    @State private var loadNextVideo = false
+    @State private var loadPreviousVideo = false
+    @State var currentIndex = 0
 
     var body: some View {
         ZStack {
@@ -20,22 +25,48 @@ struct VideoDetailsView: View {
                     .ignoresSafeArea()
             VStack {
                 Spacer()
-                VideoControllersView(videoPlayer: self.videoPlayer)
-                    .padding()
-                    .background(BlurView(style: .regular))
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                
+                VideoControllersView(
+                    isPlaying: $isPlaying,
+                    videoPlayer: videoPlayer,
+                    loadNextVideo: $loadNextVideo,
+                    loadPreviousVideo: $loadPreviousVideo
+                )
+                .padding()
+                .background(BlurView(style: .regular))
+                .clipShape(RoundedRectangle(cornerRadius: 25))
             }
         }
         .onAppear {
-            videoPlayer.setupPlayer(with: file)
+            if let index = videoFiles?.firstIndex(of: file) {
+                currentIndex = index
+                videoPlayer.setupPlayer(with: file) {
+                    loadNextVideo = true
+                    isPlaying = false
+                    videoPlayer.pause()
+                }
+            }
         }
         .alert("Video has been saved", isPresented: $videoIsSaved) {
             Button("Ok") {
                 videoIsSaved = false
             }
         }
+        .onChange(of: loadNextVideo) {
+            if loadNextVideo {
+                loadNextVideoFile()
+            }
+        }
+        .onChange(of: loadPreviousVideo) {
+            if loadPreviousVideo {
+                loadPreviousVideoFile()
+            }
+        }
+        .onDisappear {
+            isPlaying = false
+            videoPlayer.pause()
+        }
         .navigationBarItems(trailing: saveButton)
-
     }
 }
 
@@ -60,14 +91,40 @@ extension VideoDetailsView {
             } else if let error = error {
                 print("Error saving video: \(error.localizedDescription)")
             } else {
-                print("Unknown error occurred while saving the video")
+                print("Unknown error")
             }
         }
+    }
+    
+    private func loadNextVideoFile() {
+        if let videoFiles = videoFiles, currentIndex < videoFiles.count - 1 {
+            currentIndex += 1
+            loadNewFile(file: videoFiles[currentIndex])
+            loadNextVideo.toggle()
+        }
+    }
+    
+    private func loadPreviousVideoFile() {
+        if let videoFiles = videoFiles, currentIndex > 0 {
+            currentIndex -= 1
+            loadNewFile(file: videoFiles[currentIndex])
+            loadPreviousVideo.toggle()
+        }
+    }
+    
+    private func loadNewFile(file: URL) {
+        videoPlayer.setNewFile(file: file) {
+            loadNextVideo = true
+            isPlaying = false
+            videoPlayer.pause()
+        }
+        isPlaying = true
     }
 }
 
 #Preview {
     VideoDetailsView(
-        file: URL(string: "asdasdas")!
+        file: URL(string: "asdasdas")!,
+        videoFiles: []
     )
 }
