@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A57504862CB08CC800BC7057 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A57504852CB08CC800BC7057 /* RealmSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A584B5D52CADE36D00317E01 /* DatabaseCrudKucherenko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseCrudKucherenko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A57504862CB08CC800BC7057 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = DatabaseCrudKucherenko;
 			packageProductDependencies = (
+				A57504852CB08CC800BC7057 /* RealmSwift */,
 			);
 			productName = DatabaseCrudKucherenko;
 			productReference = A584B5D52CADE36D00317E01 /* DatabaseCrudKucherenko.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = A584B5CC2CADE36C00317E01;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A57504842CB08CC800BC7057 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A584B5D62CADE36D00317E01 /* Products */;
 			projectDirPath = "";
@@ -333,6 +342,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A57504842CB08CC800BC7057 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A57504852CB08CC800BC7057 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A57504842CB08CC800BC7057 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A584B5CD2CADE36D00317E01 /* Project object */;
 }
