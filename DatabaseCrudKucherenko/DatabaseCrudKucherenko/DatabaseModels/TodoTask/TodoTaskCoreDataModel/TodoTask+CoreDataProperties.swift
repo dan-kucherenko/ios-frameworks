@@ -15,7 +15,7 @@ extension TodoTask {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TodoTask> {
         return NSFetchRequest<TodoTask>(entityName: "TodoTask")
     }
-
+    @NSManaged public var _id: UUID
     @NSManaged public var name: String?
     @NSManaged public var isDone: Bool
     @NSManaged public var dueDate: Date?

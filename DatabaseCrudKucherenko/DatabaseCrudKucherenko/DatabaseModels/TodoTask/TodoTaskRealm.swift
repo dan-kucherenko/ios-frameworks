@@ -8,10 +8,10 @@
 import Foundation
 import RealmSwift
 
-class TodoTaskRealm: Object {
-    @Persisted(primaryKey: true) var _id: Int
-    @Persisted var name: String
+class TodoTaskRealm: Object, TodoTaskProtocol {
+    @Persisted(primaryKey: true) var _id: UUID = UUID()
+    @Persisted var name: String?
     @Persisted var isDone: Bool
-    @Persisted var dueDate: Date
+    @Persisted var dueDate: Date?
     @Persisted var subtasks: List<TodoSubtaskRealm>
 }
