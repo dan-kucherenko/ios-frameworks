@@ -11,20 +11,14 @@ import SnapKit
 class TodoCellView: UITableViewCell {
     static let cellIdentifier = "todoCell"
     
-    private let completedCheckbox = UISwitch()
+    private let completedCheckbox = CheckboxButton()
     private let name = UILabel()
     private let dueDate = UILabel()
     
-    override func prepareForReuse() {
-        name.removeFromSuperview()
-        dueDate.removeFromSuperview()
-        completedCheckbox.removeFromSuperview()
-    }
-    
-    func configure(with todo: Todo) {
+    func configure(with todo: TodoTaskProtocol) {
         self.name.text = todo.name
         self.dueDate.text = todo.formattedDate
-        self.completedCheckbox.isOn = todo.isDone
+        self.completedCheckbox.isChecked = todo.isDone
         
         setupConstraints()
     }
@@ -46,8 +40,15 @@ class TodoCellView: UITableViewCell {
         }
         
         completedCheckbox.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
             make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
         }
+    }
+    
+    override func prepareForReuse() {
+        name.removeFromSuperview()
+        dueDate.removeFromSuperview()
+        completedCheckbox.removeFromSuperview()
     }
 }
