@@ -9,18 +9,16 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-    private var todos: [Todo?] = [.mock]
+    private var databaseManager: (any DatabaseManager)?
+    private var todos: [TodoTaskProtocol] = []
     
     private let tableView = UITableView()
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        setupHeader()
+        super.viewDidLoad()   
+        databaseManager = RealmDataManager.shared
+        fetchInitialTodos()
         setupTableView()
-    }
-
-    private func setupHeader() {
-        self.navigationItem.title = "Todos List"
     }
     
     private func setupTableView() {
@@ -31,8 +29,13 @@ class ViewController: UIViewController {
         self.view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
+    }
+    
+    private func fetchInitialTodos() {
+        guard let databaseManager else { return }
+        todos = databaseManager.getAllTodoTasks()
     }
 }
 
@@ -46,18 +49,26 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let todoCell = tableView.dequeueReusableCell(withIdentifier: TodoCellView.cellIdentifier, for: indexPath) as! TodoCellView
         let todoTask = todos[indexPath.row]
-        
-        guard let todoTask else { return todoCell}
-        
         todoCell.configure(with: todoTask)
         
         return todoCell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let isTaskDeleted = databaseManager?.delete(todoTask: todos[indexPath.row])
+            todos.remove(at: indexPath.row)
+            print("Task deleted: \(isTaskDeleted)")
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 #Preview {
