@@ -10,15 +10,25 @@ import SnapKit
 
 class TodoCellView: UITableViewCell {
     static let cellIdentifier = "todoCell"
+
+    weak var delegate: TaskDoneProtocol?
+    var todoTask: TodoTaskProtocol?
     
     private let completedCheckbox = CheckboxButton()
     private let name = UILabel()
     private let dueDate = UILabel()
     
-    func configure(with todo: TodoTaskProtocol) {
-        self.name.text = todo.name
-        self.dueDate.text = todo.formattedDate
-        self.completedCheckbox.isChecked = todo.isDone
+    func configure(/*with todo: TodoTaskProtocol*/) {
+        guard let todoTask else { return }
+        self.name.text = todoTask.name
+        self.dueDate.text = todoTask.formattedDate
+        self.completedCheckbox.isChecked = todoTask.isDone
+        
+        self.completedCheckbox.addTarget(
+            nil,
+            action: #selector(markTaskAsDone),
+            for: .touchUpInside
+        )
         
         setupConstraints()
     }
@@ -50,5 +60,10 @@ class TodoCellView: UITableViewCell {
         name.removeFromSuperview()
         dueDate.removeFromSuperview()
         completedCheckbox.removeFromSuperview()
+    }
+    
+    @objc private func markTaskAsDone() {
+        guard var todoTask else { return }
+        delegate?.taskDone(task: &todoTask)
     }
 }

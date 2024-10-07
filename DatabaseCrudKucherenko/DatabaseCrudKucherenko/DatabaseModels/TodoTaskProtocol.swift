@@ -10,7 +10,7 @@ import Foundation
 protocol TodoTaskProtocol {
     var _id: UUID { get }
     var name: String? { get }
-    var isDone: Bool { get }
+    var isDone: Bool { get set }
     var dueDate: Date? { get }
 }
 

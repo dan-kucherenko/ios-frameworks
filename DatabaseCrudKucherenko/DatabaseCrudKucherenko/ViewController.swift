@@ -15,8 +15,9 @@ class ViewController: UIViewController {
     private let tableView = UITableView()
 
     override func viewDidLoad() {
-        super.viewDidLoad()   
-        databaseManager = RealmDataManager.shared
+        super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        databaseManager = CoreDataManager.shared
         fetchInitialTodos()
         setupTableView()
     }
@@ -34,11 +35,16 @@ class ViewController: UIViewController {
     }
     
     private func fetchInitialTodos() {
-        guard let databaseManager else { return }
-        todos = databaseManager.getAllTodoTasks()
+        todos = databaseManager?.getAllTodoTasks() ?? []
     }
 }
 
+extension ViewController: TaskDoneProtocol {
+    func taskDone(task: inout TodoTaskProtocol) {
+        guard let databaseManager else { return }
+        databaseManager.update(todoTask: &task)
+    }
+}
 
 // MARK: - UITableViewDataSource
 extension ViewController: UITableViewDataSource {
@@ -47,9 +53,15 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let todoCell = tableView.dequeueReusableCell(withIdentifier: TodoCellView.cellIdentifier, for: indexPath) as! TodoCellView
+        let todoCell = tableView.dequeueReusableCell(
+            withIdentifier: TodoCellView.cellIdentifier,
+            for: indexPath
+        ) as! TodoCellView
+        todoCell.delegate = self
+        
         let todoTask = todos[indexPath.row]
-        todoCell.configure(with: todoTask)
+        todoCell.todoTask = todoTask
+        todoCell.configure()
         
         return todoCell
     }
