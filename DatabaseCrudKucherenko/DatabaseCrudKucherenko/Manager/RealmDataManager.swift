@@ -18,8 +18,10 @@ class RealmDataManager: DatabaseManager {
         realm.objects(TodoTaskRealm.self).toArray(ofType: TodoTaskRealm.self)
     }
     
-    func updateTodoTask(by id: Int, updated: TodoTaskProtocol) -> Bool {
-        return false
+    func update(todoTask: inout TodoTaskProtocol) {
+        try! realm.write {
+            todoTask.isDone.toggle()
+        }
     }
     
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {

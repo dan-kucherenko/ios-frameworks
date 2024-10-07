@@ -24,17 +24,14 @@ class CoreDataManager: DatabaseManager {
         return []
     }
     
-    func updateTodoTask(by id: Int, updated: any TodoTaskProtocol) -> Bool {
-//        let fetchRequest: NSFetchRequest<TodoTask> = TodoTask.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-//        
-//        do {
-//            let task = try context.fetch(fetchRequest).first
-//            task.isDone.toggle()
-//        } catch {
-//            print(error)
-//        }
-        return false
+    func update(todoTask: inout TodoTaskProtocol) {
+        todoTask.isDone.toggle()
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
     }
     
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
@@ -62,6 +59,7 @@ class CoreDataManager: DatabaseManager {
         } catch {
             return false
         }
+        
         return true
     }
 }

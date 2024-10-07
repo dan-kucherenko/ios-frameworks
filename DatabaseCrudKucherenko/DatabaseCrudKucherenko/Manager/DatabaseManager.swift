@@ -11,7 +11,7 @@ protocol DatabaseManager {
     func getAllTodoTasks() -> [TodoTaskProtocol]
 //    func getSubtasks(byTodoTask id: Int) -> [TodoSubtaskProtocol]?
     
-    func updateTodoTask(by id: Int, updated: TodoTaskProtocol) -> Bool
+    func update(todoTask: inout TodoTaskProtocol)
 //    func updateSubtask(byTodoTask id: Int, updated: TodoSubtaskProtocol) -> Bool
     
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol?
