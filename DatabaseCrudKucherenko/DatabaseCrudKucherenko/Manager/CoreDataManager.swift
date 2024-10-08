@@ -70,8 +70,12 @@ class CoreDataManager: DatabaseManager {
         todoTask.subtasksArray
     }
     
-    func add(subtask: TodoSubtaskProtocol, to todoTask: TodoTaskProtocol) {
+    func add(subtaskName: String, to todoTask: TodoTaskProtocol) -> TodoSubtaskProtocol  {
+        let subtask = TodoSubtask(context: context)
+        subtask.name = subtaskName
+        subtask.isDone = false
         todoTask.addSubtask(subtask)
+        return subtask
     }
     
     func delete(subtask: TodoSubtaskProtocol, from todoTask: TodoTaskProtocol) {

@@ -8,8 +8,9 @@
 import UIKit
 
 class TodoSubtasksViewController: UIViewController {
-    private var databaseManager: (any DatabaseManager)?
     private var todoSubtasks: [TodoSubtaskProtocol] = []
+    var todoTask: TodoTaskProtocol?
+    var databaseManager: (any DatabaseManager)?
     
     private let tableView = UITableView()
 
@@ -44,14 +45,14 @@ class TodoSubtasksViewController: UIViewController {
     }
     
 //    private func addNewTask() {
+//        let modalVC = SubtaskModalViewController()
 //        
-//        let modalVC = TaskModalViewController()
-//        
-//        modalVC.onSaveTask = { [weak self] taskName, date in
-//            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date)
-//            guard let addedTodoTask else { return }
-//            print("Added todo task: \n\(addedTodoTask)")
-//            self?.todos.append(addedTodoTask)
+//        modalVC.onSaveTask = { [weak self] taskName in
+//            guard let todoTask else { return }
+//            let addedSubtask = self?.databaseManager?.add(subtaskName: taskName, to: todoTask)
+//            
+//            guard let addedSubtask else { return }
+//            self?.todoSubtasks.append(addedSubtask)
 //            self?.tableView.reloadData()
 //        }
 //        
@@ -62,8 +63,8 @@ class TodoSubtasksViewController: UIViewController {
 
 extension TodoSubtasksViewController: SubtaskDoneProtocol {
     func subtaskDone(subtask: inout TodoSubtaskProtocol) {
-        guard let databaseManager else { return }
-//        databaseManager.update(todoTask: &task)
+        guard let databaseManager, let todoTask else { return }
+        databaseManager.update(subtask: subtask, in: todoTask)
     }
 }
 
@@ -78,7 +79,7 @@ extension TodoSubtasksViewController: UITableViewDataSource {
             withIdentifier: TodoSubtaskCellView.cellIdentifier,
             for: indexPath
         ) as! TodoSubtaskCellView
-//        todoCell.delegate = self
+        todoCell.delegate = self
         
         let todoSubTask = todoSubtasks[indexPath.row]
         todoCell.todoSubtask = todoSubTask
@@ -88,10 +89,9 @@ extension TodoSubtasksViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-//            let isTaskDeleted = databaseManager?.delete()
+        if let todoTask, editingStyle == .delete {
+            databaseManager?.delete(subtask: todoSubtasks[indexPath.row], from: todoTask)
             todoSubtasks.remove(at: indexPath.row)
-//            print("Task deleted: \(isTaskDeleted)")
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }

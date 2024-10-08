@@ -55,9 +55,13 @@ class RealmDataManager: DatabaseManager {
         todoTask.subtasksArray
     }
     
-    func add(subtask: TodoSubtaskProtocol, to todoTask: TodoTaskProtocol) {
+    func add(subtaskName: String, to todoTask: TodoTaskProtocol) -> TodoSubtaskProtocol {
         try! realm.write {
+            let subtask = TodoSubtaskRealm()
+            subtask.name = subtaskName
+            subtask.isDone = false
             todoTask.addSubtask(subtask)
+            return subtask
         }
     }
     

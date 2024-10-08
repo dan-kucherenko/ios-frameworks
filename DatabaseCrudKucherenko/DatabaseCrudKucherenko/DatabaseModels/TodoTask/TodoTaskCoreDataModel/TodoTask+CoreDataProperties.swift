@@ -34,14 +34,14 @@ extension TodoTask: TodoTaskProtocol {
     }
     
     func addSubtask(_ subtask: TodoSubtaskProtocol) {
-        if let coreDataSubtask = subtask as? TodoSubtask {
-            addToSubtasks(coreDataSubtask)
+        if let subtask = subtask as? TodoSubtask {
+            addToSubtasks(subtask)
         }
     }
     
     func removeSubtask(_ subtask: TodoSubtaskProtocol) {
-        if let coreDataSubtask = subtask as? TodoSubtask {
-            removeFromSubtasks(coreDataSubtask)
+        if let subtask = subtask as? TodoSubtask {
+            removeFromSubtasks(subtask)
         }
     }
 }

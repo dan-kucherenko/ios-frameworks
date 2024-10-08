@@ -17,7 +17,7 @@ protocol DatabaseManager {
     
     // MARK: - Todo subtasks
     func getSubtasks(by todoTask: TodoTaskProtocol) -> [TodoSubtaskProtocol]?
-    func add(subtask: TodoSubtaskProtocol, to todoTask: TodoTaskProtocol)
+    func add(subtaskName: String, to todoTask: TodoTaskProtocol) -> TodoSubtaskProtocol
     func delete(subtask: TodoSubtaskProtocol, from todoTask: TodoTaskProtocol)
     func update(subtask: TodoSubtaskProtocol, in todoTask: TodoTaskProtocol)
 }

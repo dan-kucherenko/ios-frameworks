@@ -9,7 +9,7 @@ import RealmSwift
 import Foundation
 
 class TodoSubtaskRealm: Object, TodoSubtaskProtocol {
-    @Persisted(primaryKey: true) var _id: UUID
+    @Persisted(primaryKey: true) var _id: UUID = UUID()
     @Persisted var name: String
     @Persisted var isDone: Bool
 }
