@@ -14,4 +14,12 @@ class TodoTaskRealm: Object, TodoTaskProtocol {
     @Persisted var isDone: Bool
     @Persisted var dueDate: Date?
     @Persisted var subtasks: List<TodoSubtaskRealm>
+
+    var subtasksArray: [TodoSubtaskProtocol] {
+        get { return subtasks.map { $0 as TodoSubtaskProtocol } }
+        set {
+            subtasks.removeAll()
+            subtasks.append(objectsIn: newValue.compactMap { $0 as? TodoSubtaskRealm })
+        }
+    }
 }

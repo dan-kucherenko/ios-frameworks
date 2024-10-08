@@ -2,7 +2,7 @@
 //  TodoTask+CoreDataClass.swift
 //  DatabaseCrudKucherenko
 //
-//  Created by Daniil on 04.10.2024.
+//  Created by Daniil on 08.10.2024.
 //
 //
 
@@ -13,3 +13,4 @@ import CoreData
 public class TodoTask: NSManagedObject, TodoTaskProtocol {
 
 }
+
