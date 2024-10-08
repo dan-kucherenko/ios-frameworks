@@ -17,8 +17,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = CoreDataManager.shared
+        databaseManager = RealmDataManager.shared
         fetchInitialTodos()
+        setupTableHeaderView()
         setupTableView()
     }
     
@@ -32,6 +33,32 @@ class ViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
         }
+    }
+    
+    private func setupTableHeaderView() {
+        let headerView = TableHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        
+        headerView.onAddButtonTapped = { [weak self] in
+            self?.addNewTask()
+        }
+        
+        tableView.tableHeaderView = headerView
+    }
+    
+    private func addNewTask() {
+        
+        let modalVC = TaskModalViewController()
+        
+        modalVC.onSaveTask = { [weak self] taskName, date in
+            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date)
+            guard let addedTodoTask else { return }
+            print("Added todo task: \n\(addedTodoTask)")
+            self?.todos.append(addedTodoTask)
+            self?.tableView.reloadData()
+        }
+        
+        modalVC.modalPresentationStyle = .automatic
+        present(modalVC, animated: true, completion: nil)
     }
     
     private func fetchInitialTodos() {
