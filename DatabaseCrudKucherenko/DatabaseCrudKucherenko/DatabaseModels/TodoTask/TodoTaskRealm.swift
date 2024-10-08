@@ -22,4 +22,16 @@ class TodoTaskRealm: Object, TodoTaskProtocol {
             subtasks.append(objectsIn: newValue.compactMap { $0 as? TodoSubtaskRealm })
         }
     }
+    
+    func addSubtask(_ subtask: TodoSubtaskProtocol) {
+        if let realmSubtask = subtask as? TodoSubtaskRealm {
+            subtasks.append(realmSubtask)
+        }
+    }
+    
+    func removeSubtask(_ subtask: TodoSubtaskProtocol) {
+        if let realmSubtask = subtask as? TodoSubtaskRealm, let index = subtasks.firstIndex(of: realmSubtask) {
+            subtasks.remove(at: index)
+        }
+    }
 }

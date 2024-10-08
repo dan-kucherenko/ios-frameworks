@@ -12,6 +12,10 @@ protocol TodoTaskProtocol {
     var name: String? { get }
     var isDone: Bool { get set }
     var dueDate: Date? { get }
+    var subtasksArray: [TodoSubtaskProtocol] { get set }
+    
+    func addSubtask(_ subtask: TodoSubtaskProtocol)
+    func removeSubtask(_ subtask: TodoSubtaskProtocol)
 }
 
 extension TodoTaskProtocol {

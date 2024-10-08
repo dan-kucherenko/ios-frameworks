@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(TodoTask)
-public class TodoTask: NSManagedObject, TodoTaskProtocol {
+public class TodoTask: NSManagedObject {
 
 }
 

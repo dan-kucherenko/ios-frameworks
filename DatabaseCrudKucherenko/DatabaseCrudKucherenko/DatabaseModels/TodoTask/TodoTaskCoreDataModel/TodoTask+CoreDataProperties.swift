@@ -24,6 +24,28 @@ extension TodoTask {
 
 }
 
+extension TodoTask: TodoTaskProtocol {
+    var subtasksArray: [TodoSubtaskProtocol] {
+        get { return (subtasks?.allObjects as? [TodoSubtaskProtocol]) ?? [] }
+        set {
+            let newSubtasks = NSSet(array: newValue.compactMap { $0 as? TodoSubtask })
+            subtasks = newSubtasks
+        }
+    }
+    
+    func addSubtask(_ subtask: TodoSubtaskProtocol) {
+        if let coreDataSubtask = subtask as? TodoSubtask {
+            addToSubtasks(coreDataSubtask)
+        }
+    }
+    
+    func removeSubtask(_ subtask: TodoSubtaskProtocol) {
+        if let coreDataSubtask = subtask as? TodoSubtask {
+            removeFromSubtasks(coreDataSubtask)
+        }
+    }
+}
+
 // MARK: Generated accessors for subtasks
 extension TodoTask {
 
