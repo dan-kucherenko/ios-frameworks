@@ -18,7 +18,7 @@ class TodoCellView: UITableViewCell {
     private let name = UILabel()
     private let dueDate = UILabel()
     
-    func configure(/*with todo: TodoTaskProtocol*/) {
+    func configure() {
         guard let todoTask else { return }
         self.name.text = todoTask.name
         self.dueDate.text = todoTask.formattedDate

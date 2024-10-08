@@ -17,7 +17,7 @@ protocol TodoTaskProtocol {
 extension TodoTaskProtocol {
     var formattedDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         return dueDate.map(dateFormatter.string) ?? ""
     }
 }

@@ -49,7 +49,7 @@ class RealmDataManager: DatabaseManager {
     }
 }
 
-        
+// MARK: - Extension for parsing array of results
 extension Results {
     func toArray<T>(ofType: T.Type) -> [T] {
         var array = [T]()
