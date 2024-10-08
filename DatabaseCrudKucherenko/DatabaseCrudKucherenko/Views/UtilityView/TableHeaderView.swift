@@ -42,6 +42,10 @@ class TableHeaderView: UIView {
         }
     }
     
+    func setTableTitle(_ title: String) {
+        titleLabel.text = title
+    }
+    
     private func setupButton() {
         addButton.setTitle("+", for: .normal)
         addButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 28)

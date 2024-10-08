@@ -1,24 +1,21 @@
 //
-//  ViewController.swift
+//  TodoSubtasksViewController.swift
 //  DatabaseCrudKucherenko
 //
-//  Created by Daniil on 02.10.2024.
+//  Created by Daniil on 08.10.2024.
 //
 
 import UIKit
-import SnapKit
 
-class ViewController: UIViewController {
+class TodoSubtasksViewController: UIViewController {
     private var databaseManager: (any DatabaseManager)?
-    private var todos: [TodoTaskProtocol] = []
+    private var todoSubtasks: [TodoSubtaskProtocol] = []
     
     private let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = RealmDataManager.shared
-        fetchInitialTodos()
         setupTableHeaderView()
         setupTableView()
     }
@@ -37,57 +34,54 @@ class ViewController: UIViewController {
     
     private func setupTableHeaderView() {
         let headerView = TableHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        headerView.setTableTitle("Todo Subtasks")
         
         headerView.onAddButtonTapped = { [weak self] in
-            self?.addNewTask()
+//            self?.addNewTask()
         }
         
         tableView.tableHeaderView = headerView
     }
     
-    private func addNewTask() {
-        
-        let modalVC = TaskModalViewController()
-        
-        modalVC.onSaveTask = { [weak self] taskName, date in
-            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date)
-            guard let addedTodoTask else { return }
-            print("Added todo task: \n\(addedTodoTask)")
-            self?.todos.append(addedTodoTask)
-            self?.tableView.reloadData()
-        }
-        
-        modalVC.modalPresentationStyle = .automatic
-        present(modalVC, animated: true, completion: nil)
-    }
-    
-    private func fetchInitialTodos() {
-        todos = databaseManager?.getAllTodoTasks() ?? []
-    }
+//    private func addNewTask() {
+//        
+//        let modalVC = TaskModalViewController()
+//        
+//        modalVC.onSaveTask = { [weak self] taskName, date in
+//            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date)
+//            guard let addedTodoTask else { return }
+//            print("Added todo task: \n\(addedTodoTask)")
+//            self?.todos.append(addedTodoTask)
+//            self?.tableView.reloadData()
+//        }
+//        
+//        modalVC.modalPresentationStyle = .automatic
+//        present(modalVC, animated: true, completion: nil)
+//    }
 }
 
-extension ViewController: TaskDoneProtocol {
-    func taskDone(task: inout TodoTaskProtocol) {
+extension TodoSubtasksViewController: SubtaskDoneProtocol {
+    func subtaskDone(subtask: inout TodoSubtaskProtocol) {
         guard let databaseManager else { return }
-        databaseManager.update(todoTask: &task)
+//        databaseManager.update(todoTask: &task)
     }
 }
 
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension TodoSubtasksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        todos.count
+        todoSubtasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let todoCell = tableView.dequeueReusableCell(
-            withIdentifier: TodoCellView.cellIdentifier,
+            withIdentifier: TodoSubtaskCellView.cellIdentifier,
             for: indexPath
-        ) as! TodoCellView
-        todoCell.delegate = self
+        ) as! TodoSubtaskCellView
+//        todoCell.delegate = self
         
-        let todoTask = todos[indexPath.row]
-        todoCell.todoTask = todoTask
+        let todoSubTask = todoSubtasks[indexPath.row]
+        todoCell.todoSubtask = todoSubTask
         todoCell.configure()
         
         return todoCell
@@ -95,21 +89,21 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let isTaskDeleted = databaseManager?.delete(todoTask: todos[indexPath.row])
-            todos.remove(at: indexPath.row)
-            print("Task deleted: \(isTaskDeleted)")
+//            let isTaskDeleted = databaseManager?.delete()
+            todoSubtasks.remove(at: indexPath.row)
+//            print("Task deleted: \(isTaskDeleted)")
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
 // MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate {
+extension TodoSubtasksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 #Preview {
-    ViewController()
+    TodoTasksViewController()
 }
