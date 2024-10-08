@@ -111,6 +111,8 @@ extension TodoTasksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let todoTask = todos[indexPath.row]
         let todoSubtasksViewController = TodoSubtasksViewController()
+        todoSubtasksViewController.databaseManager = self.databaseManager
+        todoSubtasksViewController.todoTask = todoTask
         self.navigationController?.pushViewController(todoSubtasksViewController, animated: true)
     }
 }
