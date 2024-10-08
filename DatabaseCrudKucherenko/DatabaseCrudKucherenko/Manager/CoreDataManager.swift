@@ -14,6 +14,7 @@ class CoreDataManager: DatabaseManager {
     
     private init() {}
     
+    // MARK: - Todo tasks
     func getAllTodoTasks() -> [TodoTaskProtocol] {
         do {
             let todos = try context.fetch(TodoTask.fetchRequest())
@@ -24,22 +25,12 @@ class CoreDataManager: DatabaseManager {
         return []
     }
     
-    func update(todoTask: inout TodoTaskProtocol) {
-        todoTask.isDone.toggle()
-        
-        do {
-            try context.save()
-        } catch {
-            print(error)
-        }
-    }
-    
-    func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
+    func add(name: String, isDone: Bool, dueDate: Date?, subtasks: [TodoSubtaskProtocol]) -> TodoTaskProtocol? {
         let todo = TodoTask(context: context)
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
-        todo.subtasks = nil
+        todo.subtasks = []
 
         do {
             try context.save()
@@ -61,5 +52,39 @@ class CoreDataManager: DatabaseManager {
         }
         
         return true
+    }
+    
+    func update(todoTask: inout TodoTaskProtocol) {
+        todoTask.isDone.toggle()
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    
+    // MARK: - Todo subtasks
+    func getSubtasks(by todoTask: TodoTaskProtocol) -> [TodoSubtaskProtocol]? {
+        todoTask.subtasksArray
+    }
+    
+    func add(subtask: TodoSubtaskProtocol, to todoTask: TodoTaskProtocol) {
+        todoTask.addSubtask(subtask)
+    }
+    
+    func delete(subtask: TodoSubtaskProtocol, from todoTask: TodoTaskProtocol) {
+        todoTask.removeSubtask(subtask)
+    }
+    
+    func update(subtask: TodoSubtaskProtocol, in todoTask: TodoTaskProtocol) {
+        var subtask = todoTask.subtasksArray.first { $0._id == subtask._id }
+        subtask?.isDone.toggle()
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
     }
 }
