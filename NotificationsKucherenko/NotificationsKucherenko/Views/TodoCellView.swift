@@ -10,26 +10,28 @@ import SnapKit
 
 class TodoCellView: UITableViewCell {
     static let cellIdentifier = "todoCell"
-
-    weak var delegate: TaskDoneProtocol?
+    
+    weak var delegate: TodoTaskDelegate?
     var todoTask: TodoTaskProtocol?
     
     private let completedCheckbox = CheckboxButton()
     private let name = UILabel()
     private let dueDate = UILabel()
+    private let alarmBtn = UIButton()
     
     func configure() {
         guard let todoTask else { return }
         self.name.text = todoTask.name
         self.dueDate.text = todoTask.formattedDate
         self.completedCheckbox.isChecked = todoTask.isDone
+        self.alarmBtn.isSelected = todoTask.isNotifying
         
         self.completedCheckbox.addTarget(
             nil,
             action: #selector(markTaskAsDone),
             for: .touchUpInside
         )
-        
+        setupAlarm()
         setupConstraints()
     }
     
@@ -37,6 +39,7 @@ class TodoCellView: UITableViewCell {
         self.contentView.addSubview(name)
         self.contentView.addSubview(dueDate)
         self.contentView.addSubview(completedCheckbox)
+        self.contentView.addSubview(alarmBtn)
         
         name.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
@@ -54,6 +57,23 @@ class TodoCellView: UITableViewCell {
             make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
         }
+        
+        alarmBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.trailing.equalTo(completedCheckbox.snp.trailing).offset(-30)
+            make.centerY.equalToSuperview()
+        }
+    }
+    
+    private func setupAlarm() {
+        if todoTask?.isNotifying == true {
+            alarmBtn.setImage(UIImage(systemName: "bell.fill"), for: .normal)
+            alarmBtn.tintColor = .systemYellow
+        } else {
+            alarmBtn.setImage(UIImage(systemName: "bell.slash.fill"), for: .normal)
+            alarmBtn.tintColor = .systemGray
+        }
+        alarmBtn.addTarget(self, action: #selector(alarmBtnTapped), for: .touchUpInside)
     }
     
     override func prepareForReuse() {
@@ -65,5 +85,25 @@ class TodoCellView: UITableViewCell {
     @objc private func markTaskAsDone() {
         guard var todoTask else { return }
         delegate?.taskDone(task: &todoTask)
+    }
+    
+    @objc private func alarmBtnTapped() {
+        if todoTask?.isNotifying == true {
+            alarmBtn.setImage(UIImage(systemName: "bell.slash.fill"), for: .normal)
+            alarmBtn.tintColor = .systemGray
+            
+            guard var todoTask else { return }
+            delegate?.alarmSetting(task: &todoTask)
+            NotificationsManager.shared.cancelNotification(for: todoTask)
+        } else {
+            alarmBtn.setImage(UIImage(systemName: "bell.fill"), for: .normal)
+            alarmBtn.tintColor = .systemYellow
+            
+            Task {
+                guard var todoTask else { return }
+                delegate?.alarmSetting(task: &todoTask)
+                await NotificationsManager.shared.turnNotification(for: todoTask)
+            }
+        }
     }
 }

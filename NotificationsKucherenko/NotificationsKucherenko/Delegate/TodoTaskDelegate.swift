@@ -5,6 +5,7 @@
 //  Created by Daniil on 08.10.2024.
 //
 
-protocol TaskDoneProtocol: AnyObject {
+protocol TodoTaskDelegate: AnyObject {
     func taskDone(task: inout TodoTaskProtocol)
+    func alarmSetting(task: inout TodoTaskProtocol)
 }

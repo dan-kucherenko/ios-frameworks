@@ -18,6 +18,9 @@ class TodoTasksViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         databaseManager = CoreDataManager.shared
+        Task {
+            await NotificationsManager.shared.requestPermission()
+        }
         fetchInitialTodos()
         setupTableHeaderView()
         setupTableView()
@@ -67,10 +70,15 @@ extension TodoTasksViewController {
 }
 
 // MARK: - TaskDoneProtocol conformance for setting task as done
-extension TodoTasksViewController: TaskDoneProtocol {
+extension TodoTasksViewController: TodoTaskDelegate {
     func taskDone(task: inout TodoTaskProtocol) {
         guard let databaseManager else { return }
         databaseManager.update(todoTask: &task)
+    }
+    
+    func alarmSetting(task: inout TodoTaskProtocol) {
+        guard let databaseManager else { return }
+        databaseManager.updateAlarm(todoTask: &task)
     }
 }
 

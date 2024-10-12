@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A53BEF222CBA982000785C3F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A53BEF212CBA982000785C3F /* RealmSwift */; };
 		A53BEF3A2CBAA10100785C3F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A53BEF392CBAA10100785C3F /* SnapKit */; };
+		A5BEE70F2CBB338B00510EDD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A5BEE70E2CBB338B00510EDD /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A53BEF222CBA982000785C3F /* RealmSwift in Frameworks */,
+				A5BEE70F2CBB338B00510EDD /* RealmSwift in Frameworks */,
 				A53BEF3A2CBAA10100785C3F /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,8 +85,8 @@
 			);
 			name = NotificationsKucherenko;
 			packageProductDependencies = (
-				A53BEF212CBA982000785C3F /* RealmSwift */,
 				A53BEF392CBAA10100785C3F /* SnapKit */,
+				A5BEE70E2CBB338B00510EDD /* RealmSwift */,
 			);
 			productName = NotificationsKucherenko;
 			productReference = A53BEE4D2CBA84BE00785C3F /* NotificationsKucherenko.app */;
@@ -117,8 +117,8 @@
 			mainGroup = A53BEE442CBA84BE00785C3F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				A53BEF202CBA982000785C3F /* XCRemoteSwiftPackageReference "realm-swift" */,
 				A53BEF382CBAA10100785C3F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A5BEE70D2CBB338B00510EDD /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A53BEE4E2CBA84BE00785C3F /* Products */;
@@ -163,7 +163,6 @@
 				INFOPLIST_FILE = NotificationsKucherenko/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -195,7 +194,6 @@
 				INFOPLIST_FILE = NotificationsKucherenko/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -358,14 +356,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A53BEF202CBA982000785C3F /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
 		A53BEF382CBAA10100785C3F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -374,18 +364,26 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		A5BEE70D2CBB338B00510EDD /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.46.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A53BEF212CBA982000785C3F /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A53BEF202CBA982000785C3F /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		A53BEF392CBAA10100785C3F /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A53BEF382CBAA10100785C3F /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		A5BEE70E2CBB338B00510EDD /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5BEE70D2CBB338B00510EDD /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
