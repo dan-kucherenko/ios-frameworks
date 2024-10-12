@@ -24,6 +24,7 @@ class RealmDataManager: DatabaseManager {
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
+        todo.isNotifying = false
         
         try! realm.write {
             realm.add(todo)
@@ -45,6 +46,12 @@ class RealmDataManager: DatabaseManager {
     func update(todoTask: inout TodoTaskProtocol) {
         try! realm.write {
             todoTask.isDone.toggle()
+        }
+    }
+    
+    func updateAlarm(todoTask: inout any TodoTaskProtocol) {
+        try! realm.write {
+            todoTask.isNotifying.toggle()
         }
     }
 }

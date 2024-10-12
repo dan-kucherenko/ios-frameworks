@@ -27,9 +27,11 @@ class CoreDataManager: DatabaseManager {
     
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
         let todo = TodoTask(context: context)
+        todo.id = UUID()
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
+        todo.isNotifying = false
 
         do {
             try context.save()
@@ -55,6 +57,16 @@ class CoreDataManager: DatabaseManager {
     
     func update(todoTask: inout TodoTaskProtocol) {
         todoTask.isDone.toggle()
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func updateAlarm(todoTask: inout any TodoTaskProtocol) {
+        todoTask.isNotifying.toggle()
         
         do {
             try context.save()
