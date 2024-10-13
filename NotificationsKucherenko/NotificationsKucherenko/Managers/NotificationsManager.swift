@@ -10,6 +10,7 @@ import UserNotifications
 class NotificationsManager {
     static let shared = NotificationsManager()
     private(set) var permission = false
+    let options: UNNotificationPresentationOptions = [.banner, .sound, .badge]
     
     private init() {}
     
