@@ -67,12 +67,11 @@ class TodoCellView: UITableViewCell {
     
     private func setupAlarm() {
         if todoTask?.isNotifying == true {
-            alarmBtn.setImage(UIImage(systemName: "bell.fill"), for: .normal)
-            alarmBtn.tintColor = .systemYellow
+            setNotificationOnUI()
         } else {
-            alarmBtn.setImage(UIImage(systemName: "bell.slash.fill"), for: .normal)
-            alarmBtn.tintColor = .systemGray
+            setNotificationOffUI()
         }
+        
         alarmBtn.addTarget(self, action: #selector(alarmBtnTapped), for: .touchUpInside)
     }
     
@@ -89,21 +88,40 @@ class TodoCellView: UITableViewCell {
     
     @objc private func alarmBtnTapped() {
         if todoTask?.isNotifying == true {
-            alarmBtn.setImage(UIImage(systemName: "bell.slash.fill"), for: .normal)
-            alarmBtn.tintColor = .systemGray
-            
-            guard var todoTask else { return }
-            delegate?.alarmSetting(task: &todoTask)
-            NotificationsManager.shared.cancelNotification(for: todoTask)
+            turnOffNotification()
         } else {
-            alarmBtn.setImage(UIImage(systemName: "bell.fill"), for: .normal)
-            alarmBtn.tintColor = .systemYellow
-            
-            Task {
-                guard var todoTask else { return }
-                delegate?.alarmSetting(task: &todoTask)
-                await NotificationsManager.shared.turnNotification(for: todoTask)
-            }
+            turnOnNotification()
         }
+    }
+    
+    
+    // MARK: - Methods to add or cancel notification and change it in the db
+    private func turnOnNotification() {
+        setNotificationOnUI()
+        
+        guard var todoTask else { return }
+        delegate?.alarmSetting(task: &todoTask)
+
+        Task {
+            await NotificationsManager.shared.turnNotification(for: todoTask.id, date: todoTask.dueDate ?? Date())
+        }
+    }
+    
+    private func turnOffNotification() {
+        setNotificationOffUI()
+        
+        guard var todoTask else { return }
+        delegate?.alarmSetting(task: &todoTask)
+        NotificationsManager.shared.cancelNotification(for: todoTask.id)
+    }
+    
+    private func setNotificationOnUI() {
+        alarmBtn.setImage(UIImage(systemName: "bell.fill"), for: .normal)
+        alarmBtn.tintColor = .systemYellow
+    }
+    
+    private func setNotificationOffUI() {
+        alarmBtn.setImage(UIImage(systemName: "bell.slash.fill"), for: .normal)
+        alarmBtn.tintColor = .systemGray
     }
 }

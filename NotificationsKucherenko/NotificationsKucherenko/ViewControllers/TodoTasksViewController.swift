@@ -17,7 +17,7 @@ class TodoTasksViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = CoreDataManager.shared
+        databaseManager = RealmDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
@@ -57,6 +57,10 @@ extension TodoTasksViewController {
             guard let addedTodoTask else { return }
             print("Added todo task: \n\(addedTodoTask)")
             self?.todos.append(addedTodoTask)
+            
+            Task {
+                await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, date: addedTodoTask.dueDate ?? Date())
+            }
             self?.tableView.reloadData()
         }
         
