@@ -24,7 +24,7 @@ class RealmDataManager: DatabaseManager {
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
-        todo.isNotifying = false
+        todo.isNotifying = true
         
         try! realm.write {
             realm.add(todo)

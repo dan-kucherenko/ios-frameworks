@@ -31,7 +31,7 @@ class CoreDataManager: DatabaseManager {
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
-        todo.isNotifying = false
+        todo.isNotifying = true
 
         do {
             try context.save()
