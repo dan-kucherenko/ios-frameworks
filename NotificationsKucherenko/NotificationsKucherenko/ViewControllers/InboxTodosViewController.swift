@@ -15,7 +15,6 @@ class InboxTodosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        databaseManager = RealmDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
@@ -40,6 +39,10 @@ class InboxTodosViewController: UIViewController {
     
     private func fetchInboxTodos() {
         todos = databaseManager?.getAllInboxTodoTasks() ?? []
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 

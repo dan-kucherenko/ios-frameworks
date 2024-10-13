@@ -24,7 +24,7 @@ class NotificationsManager {
         }
     }
     
-    func turnNotification(for todoId: UUID, date: Date) async {
+    func turnNotification(for todoId: UUID, name: String, date: Date) async {
         guard permission else {
             print("No permission")
             return
@@ -39,8 +39,8 @@ class NotificationsManager {
         )
 
         let content = UNMutableNotificationContent()
-        content.title = "First message"
-        content.body = "Hello"
+        content.title = "Caution!!"
+        content.body = "Your todo task \(name) is about to expire at \(date)"
         
         let request = UNNotificationRequest(
             identifier: todoId.uuidString,
