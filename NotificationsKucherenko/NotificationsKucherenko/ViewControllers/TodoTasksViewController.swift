@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TodoTasksViewController: UIViewController, UITableViewDelegate {
+class TodoTasksViewController: UIViewController {
     private var databaseManager: (any DatabaseManager)?
     private var todos: [TodoTaskProtocol] = []
     
@@ -42,8 +42,10 @@ class TodoTasksViewController: UIViewController, UITableViewDelegate {
         navigationItem.title = "Todos"
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))
+        let inboxButton = UIBarButtonItem(title: "Inbox", style: .plain, target: self, action: #selector(openInbox))
         
         navigationItem.rightBarButtonItem = addButton
+        navigationItem.leftBarButtonItem = inboxButton
     }
 }
 
@@ -66,6 +68,13 @@ extension TodoTasksViewController {
         
         modalVC.modalPresentationStyle = .automatic
         present(modalVC, animated: true, completion: nil)
+    }
+    
+    @objc private func openInbox() {
+        let inboxVC = InboxTodosViewController()
+        inboxVC.databaseManager = databaseManager
+        
+        self.navigationController?.pushViewController(inboxVC, animated: true)
     }
     
     private func fetchInitialTodos() {
@@ -115,6 +124,8 @@ extension TodoTasksViewController: UITableViewDataSource {
         }
     }
 }
+
+extension TodoTasksViewController: UITableViewDelegate {}
 
 #Preview {
     TodoTasksViewController()
