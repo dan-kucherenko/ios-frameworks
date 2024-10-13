@@ -36,6 +36,17 @@ class RealmDataManager: DatabaseManager {
         return todo
     }
     
+    func addToInbox(name: String, dueDate: Date?, isApproved: Bool) {
+        let todo = InboxTodoTaskRealm()
+        todo.name = name
+        todo.dueDate = dueDate
+        todo.isApproved = isApproved
+        
+        try! realm.write {
+            realm.add(todo)
+        }
+    }
+    
     func delete(todoTask: TodoTaskProtocol) -> Bool {
         guard let todoTask = todoTask as? TodoTaskRealm else { return false }
         

@@ -12,6 +12,7 @@ protocol DatabaseManager {
     func getAllTodoTasks() -> [TodoTaskProtocol]
     func getAllInboxTodoTasks() -> [InboxTodoTaskProtocol]
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol?
+    func addToInbox(name: String, dueDate: Date?, isApproved: Bool)
     func delete(todoTask: TodoTaskProtocol) -> Bool
     func update(todoTask: inout TodoTaskProtocol)
     func updateAlarm(todoTask: inout TodoTaskProtocol)

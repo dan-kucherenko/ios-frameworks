@@ -52,6 +52,20 @@ class CoreDataManager: DatabaseManager {
         return todo
     }
     
+    func addToInbox(name: String, dueDate: Date?, isApproved: Bool) {
+        let todo = InboxTodo(context: context)
+        todo.id = UUID()
+        todo.name = name
+        todo.dueDate = dueDate
+        todo.isApproved = isApproved
+
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
+    
     func delete(todoTask: TodoTaskProtocol) -> Bool {
         guard let todoTask = todoTask as? TodoTask else { return false }
         
