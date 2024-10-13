@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 @objc(InboxTodo)
-public class InboxTodo: NSManagedObject, InboxTodoTaskProtocol {
+public class InboxTodo: NSManagedObject, InboxTodoTaskProtocol {    
 
 }

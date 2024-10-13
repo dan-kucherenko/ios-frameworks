@@ -22,7 +22,11 @@ class TodoCellView: UITableViewCell {
     func configure() {
         guard let todoTask else { return }
         self.name.text = todoTask.name
+        self.name.font = .boldSystemFont(ofSize: 16)
+        
         self.dueDate.text = todoTask.formattedDate
+        self.dueDate.font = .systemFont(ofSize: 14)
+        
         self.completedCheckbox.isChecked = todoTask.isDone
         self.alarmBtn.isSelected = todoTask.isNotifying
         
@@ -60,7 +64,7 @@ class TodoCellView: UITableViewCell {
         
         alarmBtn.snp.makeConstraints { make in
             make.width.height.equalTo(50)
-            make.trailing.equalTo(completedCheckbox.snp.trailing).offset(-30)
+            make.trailing.equalTo(completedCheckbox.snp.trailing).offset(-40)
             make.centerY.equalToSuperview()
         }
     }
@@ -103,7 +107,11 @@ class TodoCellView: UITableViewCell {
         delegate?.alarmSetting(task: &todoTask)
 
         Task {
-            await NotificationsManager.shared.turnNotification(for: todoTask.id, date: todoTask.dueDate ?? Date())
+            await NotificationsManager.shared.turnNotification(
+                for: todoTask.id,
+                name: todoTask.name ?? "",
+                date: todoTask.dueDate ?? Date()
+            )
         }
     }
     
