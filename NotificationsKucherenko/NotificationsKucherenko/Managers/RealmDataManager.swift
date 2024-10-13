@@ -19,6 +19,10 @@ class RealmDataManager: DatabaseManager {
         realm.objects(TodoTaskRealm.self).toArray(ofType: TodoTaskRealm.self)
     }
     
+    func getAllInboxTodoTasks() -> [InboxTodoTaskProtocol] {
+        realm.objects(InboxTodoTaskRealm.self).toArray(ofType: InboxTodoTaskRealm.self)
+    }
+    
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
         let todo = TodoTaskRealm()
         todo.name = name

@@ -25,6 +25,16 @@ class CoreDataManager: DatabaseManager {
         return []
     }
     
+    func getAllInboxTodoTasks() -> [InboxTodoTaskProtocol] {
+        do {
+            let todos = try context.fetch(InboxTodo.fetchRequest())
+            return todos
+        } catch {
+            print(error)
+        }
+        return []
+    }
+    
     func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
         let todo = TodoTask(context: context)
         todo.id = UUID()
