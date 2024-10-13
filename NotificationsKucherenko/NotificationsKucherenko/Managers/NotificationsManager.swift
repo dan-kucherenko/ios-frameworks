@@ -59,4 +59,27 @@ class NotificationsManager {
     func cancelNotification(for todoId: UUID) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [todoId.uuidString])
     }
+    
+    func setCategoryForRemoteNotifications() {
+        let acceptAction = UNNotificationAction(
+            identifier: "ACCEPT_ACTION",
+            title: "Accept",
+            options: .foreground
+        )
+        
+        let cancelAction = UNNotificationAction(
+            identifier: "CANCEL_ACTION",
+            title: "Cancel",
+            options: .destructive
+        )
+        
+        
+        let category = UNNotificationCategory(
+            identifier: "TODO_TASK",
+            actions: [acceptAction, cancelAction],
+            intentIdentifiers: []
+        )
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+    }
 }

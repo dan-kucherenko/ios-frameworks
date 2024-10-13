@@ -11,12 +11,27 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        NotificationsManager.shared.setCategoryForRemoteNotifications()
         return true
     }
+    
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+//        print(userInfo)
+//        return .noData
+//    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.actionIdentifier == "ACCEPT_ACTION" {
+            print("Notification accepted")
+        } else if response.actionIdentifier == "CANCEL_ACTION" {
+            print("Notification declined")
+        }
+        completionHandler()
+    }
+
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
