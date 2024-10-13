@@ -24,14 +24,14 @@ class NotificationsManager {
         }
     }
     
-    func turnNotification(for todo: TodoTaskProtocol) async {
+    func turnNotification(for todoId: UUID, date: Date) async {
         guard permission else {
             print("No permission")
             return
         }
 
         let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: todo.dueDate ?? Date())
+        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
         
         let trigger = UNCalendarNotificationTrigger(
             dateMatching: dateComponents,
@@ -43,7 +43,7 @@ class NotificationsManager {
         content.body = "Hello"
         
         let request = UNNotificationRequest(
-            identifier: todo.id.uuidString,
+            identifier: todoId.uuidString,
             content: content,
             trigger: trigger
         )
@@ -56,7 +56,7 @@ class NotificationsManager {
         }
     }
     
-    func cancelNotification(for todo: TodoTaskProtocol) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [todo.id.uuidString])
+    func cancelNotification(for todoId: UUID) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [todoId.uuidString])
     }
 }
