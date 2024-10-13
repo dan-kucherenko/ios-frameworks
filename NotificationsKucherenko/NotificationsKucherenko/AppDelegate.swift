@@ -10,9 +10,10 @@ import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
+    private var databaseManager: DatabaseManager?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        databaseManager = RealmDataManager.shared
         NotificationsManager.shared.setCategoryForRemoteNotifications()
         return true
     }
@@ -23,11 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let content = response.notification.request.content
+        let name = content.title
+        let dueDate = ISO8601DateFormatter().date(from: content.userInfo["dueDate"] as? String ?? "")
         
         if response.actionIdentifier == "ACCEPT_ACTION" {
             print("Notification accepted")
+            let addedTodoTask = databaseManager?.add(name: name, isDone: false, dueDate: dueDate)
+            databaseManager?.addToInbox(name: name, dueDate: dueDate, isApproved: true)
+            
+            NotificationCenter.default.post(name: NSNotification.Name("TodoAdded"), object: nil)
+
+            Task {
+                await NotificationsManager.shared.turnNotification(for: addedTodoTask?.id ?? UUID(), name: name, date: dueDate!)
+            }
+            
         } else if response.actionIdentifier == "CANCEL_ACTION" {
-            print("Notification declined")
+            print("Notification with title: \(name) and due date: \(dueDate) was declined")
+            databaseManager?.addToInbox(name: name, dueDate: dueDate, isApproved: false)
         }
         completionHandler()
     }
