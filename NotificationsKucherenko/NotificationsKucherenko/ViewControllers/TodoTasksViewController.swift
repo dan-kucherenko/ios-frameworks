@@ -24,6 +24,8 @@ class TodoTasksViewController: UIViewController {
         fetchInitialTodos()
         setupTableHeaderView()
         setupTableView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTodoAdded), name: NSNotification.Name("TodoAdded"), object: nil)
     }
     
     private func setupTableView() {
@@ -47,10 +49,19 @@ class TodoTasksViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = inboxButton
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - Methods for interacting with the db
 extension TodoTasksViewController {
+    @objc private func handleTodoAdded() {
+        fetchInitialTodos()
+        tableView.reloadData()
+    }
+    
     @objc private func addNewTask() {
         let modalVC = TaskModalViewController()
         
@@ -61,7 +72,7 @@ extension TodoTasksViewController {
             self?.todos.append(addedTodoTask)
             
             Task {
-                await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, date: addedTodoTask.dueDate ?? Date())
+                await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, name: addedTodoTask.name ?? "", date: addedTodoTask.dueDate ?? Date())
             }
             self?.tableView.reloadData()
         }
