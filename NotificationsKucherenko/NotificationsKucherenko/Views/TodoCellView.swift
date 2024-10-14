@@ -26,6 +26,7 @@ class TodoCellView: UITableViewCell {
         
         self.dueDate.text = todoTask.formattedDate
         self.dueDate.font = .systemFont(ofSize: 14)
+        self.dueDate.textColor = todoTask.dueDate ?? Date() > Date() ? .secondaryLabel : .systemRed
         
         self.completedCheckbox.isChecked = todoTask.isDone
         self.alarmBtn.isSelected = todoTask.isNotifying
@@ -70,13 +71,17 @@ class TodoCellView: UITableViewCell {
     }
     
     private func setupAlarm() {
-        if todoTask?.isNotifying == true {
-            setNotificationOnUI()
+        if todoTask?.dueDate ?? Date() > Date() {
+            if todoTask?.isNotifying == true {
+                setNotificationOnUI()
+            } else {
+                setNotificationOffUI()
+            }
+            alarmBtn.addTarget(self, action: #selector(alarmBtnTapped), for: .touchUpInside)
         } else {
             setNotificationOffUI()
+            alarmBtn.isEnabled = false
         }
-        
-        alarmBtn.addTarget(self, action: #selector(alarmBtnTapped), for: .touchUpInside)
     }
     
     override func prepareForReuse() {
