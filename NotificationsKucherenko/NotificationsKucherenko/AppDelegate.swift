@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let content = response.notification.request.content
         let name = content.title
-        let dueDate = ISO8601DateFormatter().date(from: content.userInfo["dueDate"] as? String ?? "")
+        let dueDate = getDateFromNotification(content: content)
         
         if response.actionIdentifier == "ACCEPT_ACTION" {
             print("Notification accepted")
@@ -40,7 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         completionHandler()
     }
-
+    
+    private func getDateFromNotification(content: UNNotificationContent) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        return dateFormatter.date(from: content.userInfo["dueDate"] as? String ?? "")
+    }
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
