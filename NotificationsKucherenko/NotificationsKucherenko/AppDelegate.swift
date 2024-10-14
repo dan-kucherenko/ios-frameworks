@@ -17,12 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         NotificationsManager.shared.setCategoryForRemoteNotifications()
         return true
     }
-    
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
-//        print(userInfo)
-//        return .noData
-//    }
-    
+     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let content = response.notification.request.content
         let name = content.title
