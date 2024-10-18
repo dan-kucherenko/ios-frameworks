@@ -15,6 +15,8 @@ class LoginFormViewController: UIViewController {
     private let loginButton = UIButton(type: .system)
     private let stackView = UIStackView()
     
+    private let email: String = "g_f0x567"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -29,19 +31,38 @@ class LoginFormViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let credentials = AuthManager.shared.getCredentials(server: "example.com", email: "daniil.ukraine@gmail.com") {
-            print("User is already logged in")
-            print(credentials)
+        guard let credentials = AuthManager.shared.getCredentials(server: "example.com", email: email) else { return }
+        
+        AuthManager.shared.logIntoServer(email: email, password: credentials) { [weak self] in
+            if $0 {
+                DispatchQueue.main.sync {
+                    self?.navigateToTodos()
+                }
+            }
         }
     }
     
     @objc private func loginButtonTapped() {
         print("Login button tapped")
-        AuthManager.shared.saveCredentials(
-            server: "example.com",
+        
+        let email = emailTextField.text
+        let password = passwordTextField.text
+        
+        AuthManager.shared.logIntoServer(
             email: emailTextField.text ?? "",
-            password: passwordTextField.text ?? ""
-        )
+            password: passwordTextField.text ?? "") { [weak self] isLoggedIn in
+                if isLoggedIn {
+                    AuthManager.shared.saveCredentials(
+                        server: "example.com",
+                        email: email ?? "",
+                        password: password ?? ""
+                    )
+                    print("Credentials are saved to Keychain")
+                    DispatchQueue.main.sync {
+                        self?.navigateToTodos()
+                    }
+                }
+            }
     }
 }
 
@@ -74,6 +95,7 @@ private extension LoginFormViewController {
         passwordTextField.layer.cornerRadius = 10
         passwordTextField.layer.borderWidth = 1
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.autocapitalizationType = .none
         passwordTextField.isSecureTextEntry = true
     }
     
@@ -111,5 +133,9 @@ private extension LoginFormViewController {
             make.trailing.equalTo(view).inset(20)
             make.height.equalTo(50)
         }
+    }
+    
+    func navigateToTodos() {
+        self.navigationController?.pushViewController(TodoTasksViewController(), animated: true)
     }
 }
