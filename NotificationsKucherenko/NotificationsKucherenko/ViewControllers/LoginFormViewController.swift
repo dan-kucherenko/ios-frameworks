@@ -26,7 +26,27 @@ class LoginFormViewController: UIViewController {
         setupLoginButton()
     }
     
-    private func setupHeaderLabel() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let credentials = AuthManager.shared.getCredentials(server: "example.com", email: "daniil.ukraine@gmail.com") {
+            print("User is already logged in")
+            print(credentials)
+        }
+    }
+    
+    @objc private func loginButtonTapped() {
+        print("Login button tapped")
+        AuthManager.shared.saveCredentials(
+            server: "example.com",
+            email: emailTextField.text ?? "",
+            password: passwordTextField.text ?? ""
+        )
+    }
+}
+
+private extension LoginFormViewController {
+    func setupHeaderLabel() {
         headerLabel.text = "MyTodos"
         headerLabel.font = .systemFont(ofSize: 32, weight: .semibold)
         headerLabel.textAlignment = .center
@@ -38,7 +58,7 @@ class LoginFormViewController: UIViewController {
         }
     }
     
-    private func setupEmailTextField() {
+    func setupEmailTextField() {
         emailTextField.placeholder = "Enter email"
         emailTextField.borderStyle = .roundedRect
         emailTextField.layer.cornerRadius = 10
@@ -48,7 +68,7 @@ class LoginFormViewController: UIViewController {
         emailTextField.keyboardType = .emailAddress
     }
     
-    private func setupPasswordTextField() {
+    func setupPasswordTextField() {
         passwordTextField.placeholder = "Enter password"
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.layer.cornerRadius = 10
@@ -57,7 +77,7 @@ class LoginFormViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
     }
     
-    private func setupStackView() {
+    func setupStackView() {
         stackView.axis = .vertical
         stackView.spacing = 20
         stackView.distribution = .fillEqually
@@ -75,7 +95,7 @@ class LoginFormViewController: UIViewController {
         }
     }
     
-    private func setupLoginButton() {
+    func setupLoginButton() {
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.backgroundColor = UIColor.systemBlue
@@ -91,9 +111,5 @@ class LoginFormViewController: UIViewController {
             make.trailing.equalTo(view).inset(20)
             make.height.equalTo(50)
         }
-    }
-    
-    @objc private func loginButtonTapped() {
-        print("Login button tapped")
     }
 }
