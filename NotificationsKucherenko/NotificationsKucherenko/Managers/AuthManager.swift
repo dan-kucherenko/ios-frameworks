@@ -46,4 +46,10 @@ class AuthManager {
         guard let result = itemCopy as? Data else {return nil}
         return String(data: result, encoding: .utf8)
     }
+    
+    func logIntoServer(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        NetworkManager.shared.logIntoServer(email: email, password: password) {
+            completion($0)
+        }
+    }
 }
