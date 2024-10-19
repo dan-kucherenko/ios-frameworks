@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if response.actionIdentifier == "ACCEPT_ACTION" {
             print("Notification accepted")
-            let addedTodoTask = databaseManager?.add(name: name, isDone: false, dueDate: dueDate)
+            let addedTodoTask = databaseManager?.add(name: name, isDone: false, dueDate: dueDate, isSecured: false)
             databaseManager?.addToInbox(name: name, dueDate: dueDate, isApproved: true)
             
             NotificationCenter.default.post(name: NSNotification.Name("TodoAdded"), object: nil)
