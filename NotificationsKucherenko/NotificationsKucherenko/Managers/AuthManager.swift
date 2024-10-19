@@ -57,7 +57,7 @@ class AuthManager {
     }
     
     // MARK: - Work with face id
-    func checkFaceId() -> Bool {
+    private func checkFaceId() -> Bool {
         var error: NSError?
         if context.canEvaluatePolicy(
             .deviceOwnerAuthenticationWithBiometrics,
@@ -72,7 +72,7 @@ class AuthManager {
         return false
     }
     
-    func authenticateWithFaceId() async -> Bool {
+    private func authenticateWithFaceId() async -> Bool {
         do {
             try await context.evaluatePolicy(
                 .deviceOwnerAuthenticationWithBiometrics,
@@ -93,6 +93,30 @@ class AuthManager {
             print("Task saved successfully!")
         } catch let error {
             print("Error saving task to Keychain: \(error)")
+        }
+    }
+    
+    func authenticateAndRetrieveTask(
+        taskId: String,
+        completion: @escaping (String?) -> Void) {
+        if checkFaceId() {
+            Task {
+                let faceIdSucceeded = await authenticateWithFaceId()
+                
+                if faceIdSucceeded {
+                    let keychain = Keychain(service: "example.com")
+                    if let taskText = try? keychain.get(taskId) {
+                        DispatchQueue.main.async {
+                            completion(taskText)
+                        }
+                    } else {
+                        print("No task found in Keychain.")
+                        DispatchQueue.main.async {
+                            completion(nil)
+                        }
+                    }
+                }
+            }
         }
     }
 }
