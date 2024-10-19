@@ -14,9 +14,7 @@ class LoginFormViewController: UIViewController {
     private let passwordTextField = UITextField()
     private let loginButton = UIButton(type: .system)
     private let stackView = UIStackView()
-    
-    private let email: String = "g_f0x7999"
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -31,13 +29,16 @@ class LoginFormViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard let credentials = AuthManager.shared.getCredentials(server: "example.com", email: email) else { return }
+        let credentials = AuthManager.shared.getCredentials()
+        guard let email = credentials.0, let password = credentials.1 else { return }
         
-        AuthManager.shared.logIntoServer(email: email, password: credentials) { [weak self] in
+        AuthManager.shared.logIntoServer(email: email, password: password) { [weak self] in
             if $0 {
                 DispatchQueue.main.sync {
                     self?.navigateToTodos()
                 }
+            } else {
+                AuthManager.shared.clearCredentials()
             }
         }
     }
@@ -53,7 +54,6 @@ class LoginFormViewController: UIViewController {
             password: passwordTextField.text ?? "") { [weak self] isLoggedIn in
                 if isLoggedIn {
                     AuthManager.shared.saveCredentials(
-                        server: "example.com",
                         email: email ?? "",
                         password: password ?? ""
                     )
