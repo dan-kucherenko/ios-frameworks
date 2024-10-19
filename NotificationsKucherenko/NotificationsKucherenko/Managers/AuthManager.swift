@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import LocalAuthentication
 
 class AuthManager {
     static let shared = AuthManager()
-    
+    let context = LAContext()
+
     private init() {}
     
-    func saveCredentials(server : String, email : String, password : String){
+    // MARK: - Work with Keychain
+    func saveCredentials(server : String, email : String, password : String) {
         let query : [String: AnyObject] = [
             kSecAttrAccount as String: email as CFString,
             kSecAttrServer as String: server as CFString,
@@ -25,7 +28,6 @@ class AuthManager {
             print(status); return
         }
     }
-    
     
     func getCredentials(server : String, email : String) -> String? {
         let query: [String: AnyObject] = [
@@ -50,6 +52,35 @@ class AuthManager {
     func logIntoServer(email: String, password: String, completion: @escaping (Bool) -> Void) {
         NetworkManager.shared.logIntoServer(email: email, password: password) {
             completion($0)
+        }
+    }
+    
+    // MARK: - Work with face id
+    func checkFaceId() -> Bool {
+        var error: NSError?
+        if context.canEvaluatePolicy(
+            .deviceOwnerAuthenticationWithBiometrics,
+            error: &error) {
+            if context.biometryType == .faceID {
+                print("We have Face ID")
+                return true
+            }
+            
+        }
+        print(error)
+        return false
+    }
+    
+    func authenticateWithFaceId() async -> Bool {
+        do {
+            try await context.evaluatePolicy(
+                .deviceOwnerAuthenticationWithBiometrics,
+                localizedReason: "See the secured todos"
+            )
+            return true
+        } catch {
+            print("Authentication failed with error: \(error)")
+            return false
         }
     }
 }

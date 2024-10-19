@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private var databaseManager: DatabaseManager?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
-        databaseManager = RealmDataManager.shared
+        databaseManager = CoreDataManager.shared
         NotificationsManager.shared.setCategoryForRemoteNotifications()
         return true
     }

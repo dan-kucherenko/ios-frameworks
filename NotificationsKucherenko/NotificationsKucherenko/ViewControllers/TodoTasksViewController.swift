@@ -12,6 +12,7 @@ class TodoTasksViewController: UIViewController {
     private var databaseManager: (any DatabaseManager)?
     private var todos: [TodoTaskProtocol] = []
     private var hideSecuredTodos = true
+    private var biometryAvailability = false
     
     private let tableView = UITableView()
 
@@ -22,6 +23,8 @@ class TodoTasksViewController: UIViewController {
         Task {
             await NotificationsManager.shared.requestPermission()
         }
+        biometryAvailability = AuthManager.shared.checkFaceId()
+        print("Biometry availability: \(biometryAvailability)")
         fetchInitialTodos()
         setupTableHeaderView()
         setupTableView()
@@ -57,12 +60,20 @@ class TodoTasksViewController: UIViewController {
     }
     
     @objc private func toggleHideSecuredTodos() {
-        hideSecuredTodos.toggle()
-        
-        if let hideSecuredButton = navigationItem.rightBarButtonItems?.last {
-            hideSecuredButton.image = hideSecuredTodos ? UIImage(systemName: "eye.slash.fill") : UIImage(systemName: "eye")
+        if biometryAvailability {
+            Task {
+                let faceIdSucceeded = await AuthManager.shared.authenticateWithFaceId()
+                
+                if faceIdSucceeded {
+                    hideSecuredTodos.toggle()
+                }
+                
+                if let hideSecuredButton = navigationItem.rightBarButtonItems?.last {
+                    hideSecuredButton.image = hideSecuredTodos ? UIImage(systemName: "eye.slash.fill") : UIImage(systemName: "eye")
+                }
+                hideSecuredTodos ? fetchInitialTodos() : fetchAllTodos()
+            }
         }
-        hideSecuredTodos ? fetchInitialTodos() : fetchAllTodos()
     }
     
     @objc private func openInbox() {
