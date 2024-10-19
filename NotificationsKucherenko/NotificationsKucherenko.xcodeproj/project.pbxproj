@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A53BEF3A2CBAA10100785C3F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A53BEF392CBAA10100785C3F /* SnapKit */; };
+		A59757222CC40283008ACECB /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = A59757212CC40283008ACECB /* KeychainAccess */; };
 		A5BEE70F2CBB338B00510EDD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A5BEE70E2CBB338B00510EDD /* RealmSwift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 			files = (
 				A5BEE70F2CBB338B00510EDD /* RealmSwift in Frameworks */,
 				A53BEF3A2CBAA10100785C3F /* SnapKit in Frameworks */,
+				A59757222CC40283008ACECB /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				A53BEF392CBAA10100785C3F /* SnapKit */,
 				A5BEE70E2CBB338B00510EDD /* RealmSwift */,
+				A59757212CC40283008ACECB /* KeychainAccess */,
 			);
 			productName = NotificationsKucherenko;
 			productReference = A53BEE4D2CBA84BE00785C3F /* NotificationsKucherenko.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				A53BEF382CBAA10100785C3F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				A5BEE70D2CBB338B00510EDD /* XCRemoteSwiftPackageReference "realm-swift" */,
+				A59757202CC40283008ACECB /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A53BEE4E2CBA84BE00785C3F /* Products */;
@@ -368,6 +372,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		A59757202CC40283008ACECB /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		A5BEE70D2CBB338B00510EDD /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift";
@@ -383,6 +395,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A53BEF382CBAA10100785C3F /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		A59757212CC40283008ACECB /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A59757202CC40283008ACECB /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		A5BEE70E2CBB338B00510EDD /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
