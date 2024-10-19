@@ -18,7 +18,7 @@ class TodoTasksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = RealmDataManager.shared
+        databaseManager = CoreDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
@@ -94,7 +94,7 @@ private extension TodoTasksViewController {
     }
     
     func retrieveSecuredTask(taskId: String) {
-        AuthManager.shared.authenticateAndRetrieveTask(taskId: taskId) { taskText in
+        AuthManager.shared.authenticateAndRetrieveTask(id: taskId) { taskText in
             if let taskText = taskText {
                 self.showTaskText(taskText)
             }

@@ -40,9 +40,9 @@ class CoreDataManager: DatabaseManager {
         todo.id = UUID()
         
         if isSecured {
-            AuthManager.shared.saveTaskToKeychain(
-                taskId: todo.id.uuidString,
-                taskText: name
+            KeychainManager.shared.saveTask(
+                id: todo.id.uuidString,
+                text: name
             )
             todo.name = ""
         } else {

@@ -28,9 +28,9 @@ class RealmDataManager: DatabaseManager {
         let todo = TodoTaskRealm()
         
         if isSecured {
-            AuthManager.shared.saveTaskToKeychain(
-                taskId: todo.id.uuidString,
-                taskText: name
+            KeychainManager.shared.saveTask(
+                id: todo.id.uuidString,
+                text: name
             )
             todo.name = ""
         } else {

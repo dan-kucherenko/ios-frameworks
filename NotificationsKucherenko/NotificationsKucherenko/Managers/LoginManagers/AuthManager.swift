@@ -63,33 +63,19 @@ class AuthManager {
         }
     }
     
-    func saveTaskToKeychain(taskId: String, taskText: String) {
-        let keychain = Keychain(service: "example.com")
-
-        do {
-            try keychain.set(taskText, key: taskId)
-            print("Task saved successfully!")
-        } catch let error {
-            print("Error saving task to Keychain: \(error)")
-        }
-    }
-    
     func authenticateAndRetrieveTask(
-        taskId: String,
+        id: String,
         completion: @escaping (String?) -> Void) {
         if checkFaceId() {
             Task {
                 let faceIdSucceeded = await authenticateWithFaceId()
                 
                 if faceIdSucceeded {
-                    let keychain = Keychain(service: "example.com")
-                    if let taskText = try? keychain.get(taskId) {
-                        DispatchQueue.main.async {
-                            completion(taskText)
-                        }
-                    } else {
-                        print("No task found in Keychain.")
-                        DispatchQueue.main.async {
+                    KeychainManager.shared.retrieveTaskText(id: id) { name in
+                        if let name {
+                            completion(name)
+                        } else {
+                            print("Task not found or failed to retrieve.")
                             completion(nil)
                         }
                     }
