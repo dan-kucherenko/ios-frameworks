@@ -7,6 +7,7 @@
 
 import Foundation
 import LocalAuthentication
+import KeychainAccess
 
 class AuthManager {
     static let shared = AuthManager()
@@ -81,6 +82,17 @@ class AuthManager {
         } catch {
             print("Authentication failed with error: \(error)")
             return false
+        }
+    }
+    
+    func saveTaskToKeychain(taskId: String, taskText: String) {
+        let keychain = Keychain(service: "example.com")
+
+        do {
+            try keychain.set(taskText, key: taskId)
+            print("Task saved successfully!")
+        } catch let error {
+            print("Error saving task to Keychain: \(error)")
         }
     }
 }

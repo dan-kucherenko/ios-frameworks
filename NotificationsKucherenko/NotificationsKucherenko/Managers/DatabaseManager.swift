@@ -9,7 +9,6 @@ import Foundation
 
 protocol DatabaseManager {
     // MARK: - Todo tasks
-    func getInsecuredTodoTasks() -> [TodoTaskProtocol]
     func getAllTodoTasks() -> [TodoTaskProtocol]
     func getAllInboxTodoTasks() -> [InboxTodoTaskProtocol]
     func add(name: String, isDone: Bool, dueDate: Date?, isSecured: Bool) -> TodoTaskProtocol?
