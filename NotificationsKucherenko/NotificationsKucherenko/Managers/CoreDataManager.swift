@@ -15,6 +15,19 @@ class CoreDataManager: DatabaseManager {
     private init() {}
     
     // MARK: - Todo tasks
+    func getInsecuredTodoTasks() -> [TodoTaskProtocol] {
+        let fetchRequest: NSFetchRequest<TodoTask> = TodoTask.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isSecured == NO")
+        
+        do {
+            let todos = try context.fetch(fetchRequest)
+            return todos
+        } catch {
+            print(error)
+        }
+        return []
+    }
+    
     func getAllTodoTasks() -> [TodoTaskProtocol] {
         do {
             let todos = try context.fetch(TodoTask.fetchRequest())
@@ -35,13 +48,14 @@ class CoreDataManager: DatabaseManager {
         return []
     }
     
-    func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
+    func add(name: String, isDone: Bool, dueDate: Date?, isSecured: Bool) -> TodoTaskProtocol? {
         let todo = TodoTask(context: context)
         todo.id = UUID()
         todo.name = name
         todo.isDone = isDone
         todo.dueDate = dueDate
         todo.isNotifying = true
+        todo.isSecured = isSecured
 
         do {
             try context.save()
