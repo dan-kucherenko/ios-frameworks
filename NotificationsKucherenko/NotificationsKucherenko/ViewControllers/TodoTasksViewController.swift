@@ -18,7 +18,7 @@ class TodoTasksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = RealmDataManager.shared
+        databaseManager = CoreDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
@@ -74,13 +74,12 @@ class TodoTasksViewController: UIViewController {
 }
 
 // MARK: - Methods for interacting with the db
-extension TodoTasksViewController {
-    @objc private func handleTodoAdded() {
+private extension TodoTasksViewController {
+    @objc func handleTodoAdded() {
         fetchInitialTodos()
-        tableView.reloadData()
     }
     
-    @objc private func addNewTask() {
+    @objc func addNewTask() {
         let modalVC = TaskModalViewController()
         
         modalVC.onSaveTask = { [weak self] taskName, date, isSecured in
@@ -92,19 +91,19 @@ extension TodoTasksViewController {
             Task {
                 await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, name: addedTodoTask.name ?? "", date: addedTodoTask.dueDate ?? Date())
             }
-            self?.tableView.reloadData()
+            self?.handleTodoAdded()
         }
         
         modalVC.modalPresentationStyle = .automatic
         present(modalVC, animated: true, completion: nil)
     }
     
-    private func fetchInitialTodos() {
+    func fetchInitialTodos() {
         todos = databaseManager?.getInsecuredTodoTasks() ?? []
         tableView.reloadData()
     }
     
-    private func fetchAllTodos() {
+    func fetchAllTodos() {
         todos = databaseManager?.getAllTodoTasks() ?? []
         tableView.reloadData()
     }

@@ -31,7 +31,7 @@ class TaskModalViewController: UIViewController {
         setupTaskNameTextField()
         setupDueDatePicker()
         setupSecuredSwitchAndLabel()
-        setupButtonsStackView()  // Using horizontal stack for buttons
+        setupButtonsStackView()
     }
     
     private func setupTaskNameTextField() {
