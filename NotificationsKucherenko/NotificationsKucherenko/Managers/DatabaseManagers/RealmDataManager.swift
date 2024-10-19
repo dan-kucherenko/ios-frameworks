@@ -15,6 +15,7 @@ class RealmDataManager: DatabaseManager {
     private init() {}
     
     // MARK: - Todo tasks
+    
     func getAllTodoTasks() -> [TodoTaskProtocol] {
         realm.objects(TodoTaskRealm.self).toArray(ofType: TodoTaskRealm.self)
     }
@@ -23,12 +24,23 @@ class RealmDataManager: DatabaseManager {
         realm.objects(InboxTodoTaskRealm.self).toArray(ofType: InboxTodoTaskRealm.self)
     }
     
-    func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
+    func add(name: String, isDone: Bool, dueDate: Date?, isSecured: Bool) -> TodoTaskProtocol? {
         let todo = TodoTaskRealm()
-        todo.name = name
+        
+        if isSecured {
+            KeychainManager.shared.saveTask(
+                id: todo.id.uuidString,
+                text: name
+            )
+            todo.name = ""
+        } else {
+            todo.name = name
+        }
+        
         todo.isDone = isDone
         todo.dueDate = dueDate
         todo.isNotifying = true
+        todo.isSecured = isSecured
         
         try! realm.write {
             realm.add(todo)

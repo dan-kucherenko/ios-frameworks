@@ -1,6 +1,15 @@
 {
-  "originHash" : "a7a13aa1d81282fd834a1a8cabe626e28091654113eb7ae68c999fc7a74bace0",
+  "originHash" : "154a5b419a5aa9cd31c3043a3a384bb7a4eeb33e953c8ce83dcbb0ec09387c7f",
   "pins" : [
+    {
+      "identity" : "keychainaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+      "state" : {
+        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
+        "version" : "4.2.2"
+      }
+    },
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",

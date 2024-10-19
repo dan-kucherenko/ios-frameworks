@@ -1,0 +1,12 @@
+{
+    "aps": {
+        "alert": {
+            "title": "New Task Approved",
+            "body": "New task to be approved"
+        },
+        "category": "TODO_TASK",
+        "sound": "default"
+    },
+    "dueDate": "17.10.2024 23:50",
+    "Simulator Target Bundle": "ua.com.kucherenko.NotificationsKucherenko"
+}

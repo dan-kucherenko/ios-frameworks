@@ -14,4 +14,5 @@ class TodoTaskRealm: Object, TodoTaskProtocol {
     @Persisted var isDone: Bool
     @Persisted var dueDate: Date?
     @Persisted var isNotifying: Bool
+    @Persisted var isSecured: Bool
 }

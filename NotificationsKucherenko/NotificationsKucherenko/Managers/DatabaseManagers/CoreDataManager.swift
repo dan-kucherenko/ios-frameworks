@@ -14,7 +14,7 @@ class CoreDataManager: DatabaseManager {
     
     private init() {}
     
-    // MARK: - Todo tasks
+    // MARK: - Todo tasks    
     func getAllTodoTasks() -> [TodoTaskProtocol] {
         do {
             let todos = try context.fetch(TodoTask.fetchRequest())
@@ -35,13 +35,24 @@ class CoreDataManager: DatabaseManager {
         return []
     }
     
-    func add(name: String, isDone: Bool, dueDate: Date?) -> TodoTaskProtocol? {
+    func add(name: String, isDone: Bool, dueDate: Date?, isSecured: Bool) -> TodoTaskProtocol? {
         let todo = TodoTask(context: context)
         todo.id = UUID()
-        todo.name = name
+        
+        if isSecured {
+            KeychainManager.shared.saveTask(
+                id: todo.id.uuidString,
+                text: name
+            )
+            todo.name = ""
+        } else {
+            todo.name = name
+        }
+        
         todo.isDone = isDone
         todo.dueDate = dueDate
         todo.isNotifying = true
+        todo.isSecured = isSecured
 
         do {
             try context.save()

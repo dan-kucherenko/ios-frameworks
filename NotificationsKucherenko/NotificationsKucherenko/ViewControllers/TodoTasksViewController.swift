@@ -11,21 +11,32 @@ import SnapKit
 class TodoTasksViewController: UIViewController {
     private var databaseManager: (any DatabaseManager)?
     private var todos: [TodoTaskProtocol] = []
+    private var hideSecuredTodos = true
     
     private let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = RealmDataManager.shared
+        databaseManager = CoreDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
-        fetchInitialTodos()
+        fetchAllTodos()
         setupTableHeaderView()
         setupTableView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTodoAdded), name: NSNotification.Name("TodoAdded"), object: nil)
+    }
+    
+    private func setupTableHeaderView() {
+        navigationItem.title = "Todos"
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))
+        let inboxButton = UIBarButtonItem(title: "Inbox", style: .plain, target: self, action: #selector(openInbox))
+            
+        navigationItem.rightBarButtonItems = [addButton]
+        navigationItem.leftBarButtonItem = inboxButton
     }
     
     private func setupTableView() {
@@ -40,45 +51,8 @@ class TodoTasksViewController: UIViewController {
         }
     }
     
-    private func setupTableHeaderView() {
-        navigationItem.title = "Todos"
-        
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))
-        let inboxButton = UIBarButtonItem(title: "Inbox", style: .plain, target: self, action: #selector(openInbox))
-        
-        navigationItem.rightBarButtonItem = addButton
-        navigationItem.leftBarButtonItem = inboxButton
-    }
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-}
-
-// MARK: - Methods for interacting with the db
-extension TodoTasksViewController {
-    @objc private func handleTodoAdded() {
-        fetchInitialTodos()
-        tableView.reloadData()
-    }
-    
-    @objc private func addNewTask() {
-        let modalVC = TaskModalViewController()
-        
-        modalVC.onSaveTask = { [weak self] taskName, date in
-            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date)
-            guard let addedTodoTask else { return }
-            print("Added todo task: \n\(addedTodoTask)")
-            self?.todos.append(addedTodoTask)
-            
-            Task {
-                await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, name: addedTodoTask.name ?? "", date: addedTodoTask.dueDate ?? Date())
-            }
-            self?.tableView.reloadData()
-        }
-        
-        modalVC.modalPresentationStyle = .automatic
-        present(modalVC, animated: true, completion: nil)
     }
     
     @objc private func openInbox() {
@@ -87,10 +61,52 @@ extension TodoTasksViewController {
         
         self.navigationController?.pushViewController(inboxVC, animated: true)
     }
-    
-    private func fetchInitialTodos() {
-        todos = databaseManager?.getAllTodoTasks() ?? []
+}
+
+// MARK: - Methods for interacting with the db
+private extension TodoTasksViewController {
+    @objc func handleTodoAdded() {
+        fetchAllTodos()
     }
+    
+    @objc func addNewTask() {
+        let modalVC = TaskModalViewController()
+        
+        modalVC.onSaveTask = { [weak self] taskName, date, isSecured in
+            let addedTodoTask = self?.databaseManager?.add(name: taskName, isDone: false, dueDate: date, isSecured: isSecured)
+            guard let addedTodoTask else { return }
+            print("Added todo task: \n\(addedTodoTask)")
+            self?.todos.append(addedTodoTask)
+            
+            Task {
+                await NotificationsManager.shared.turnNotification(for: addedTodoTask.id, name: addedTodoTask.name ?? "", date: addedTodoTask.dueDate ?? Date())
+            }
+            self?.handleTodoAdded()
+        }
+        
+        modalVC.modalPresentationStyle = .automatic
+        present(modalVC, animated: true, completion: nil)
+    }
+    
+    func fetchAllTodos() {
+        todos = databaseManager?.getAllTodoTasks() ?? []
+        tableView.reloadData()
+    }
+    
+    func retrieveSecuredTask(taskId: String) {
+        AuthManager.shared.authenticateAndRetrieveTask(id: taskId) { taskText in
+            if let taskText = taskText {
+                self.showTaskText(taskText)
+            }
+        }
+    }
+    
+    func showTaskText(_ taskText: String) {
+        let alert = UIAlertController(title: "Secured Task", message: taskText, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - TaskDoneProtocol conformance for setting task as done
@@ -136,7 +152,13 @@ extension TodoTasksViewController: UITableViewDataSource {
     }
 }
 
-extension TodoTasksViewController: UITableViewDelegate {}
+extension TodoTasksViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if todos[indexPath.row].isSecured {
+            retrieveSecuredTask(taskId: todos[indexPath.row].id.uuidString)
+        }
+    }
+}
 
 #Preview {
     TodoTasksViewController()
