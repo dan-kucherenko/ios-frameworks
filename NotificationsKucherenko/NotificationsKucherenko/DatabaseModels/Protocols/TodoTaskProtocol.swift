@@ -13,6 +13,7 @@ protocol TodoTaskProtocol {
     var isDone: Bool { get set }
     var dueDate: Date? { get }
     var isNotifying: Bool { get set }
+    var isSecured: Bool { get set }
 }
 
 extension TodoTaskProtocol {

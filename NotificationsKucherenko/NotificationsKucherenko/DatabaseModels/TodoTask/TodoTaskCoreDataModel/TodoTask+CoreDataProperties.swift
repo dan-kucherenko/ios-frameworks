@@ -21,6 +21,7 @@ extension TodoTask {
     @NSManaged public var isDone: Bool
     @NSManaged public var dueDate: Date?
     @NSManaged public var isNotifying: Bool
+    @NSManaged public var isSecured: Bool
         
 }
 
