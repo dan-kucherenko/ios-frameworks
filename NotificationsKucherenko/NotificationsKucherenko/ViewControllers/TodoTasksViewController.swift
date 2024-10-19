@@ -25,7 +25,7 @@ class TodoTasksViewController: UIViewController {
         }
         biometryAvailability = AuthManager.shared.checkFaceId()
         print("Biometry availability: \(biometryAvailability)")
-        fetchInitialTodos()
+        fetchAllTodos()
         setupTableHeaderView()
         setupTableView()
         
@@ -37,9 +37,8 @@ class TodoTasksViewController: UIViewController {
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))
         let inboxButton = UIBarButtonItem(title: "Inbox", style: .plain, target: self, action: #selector(openInbox))
-        let hideSecuredButton = UIBarButtonItem(image: UIImage(systemName: "eye.slash.fill"), style: .plain, target: self, action: #selector(toggleHideSecuredTodos))
             
-        navigationItem.rightBarButtonItems = [addButton, hideSecuredButton]
+        navigationItem.rightBarButtonItems = [addButton]
         navigationItem.leftBarButtonItem = inboxButton
     }
     
@@ -59,23 +58,6 @@ class TodoTasksViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func toggleHideSecuredTodos() {
-        if biometryAvailability {
-            Task {
-                let faceIdSucceeded = await AuthManager.shared.authenticateWithFaceId()
-                
-                if faceIdSucceeded {
-                    hideSecuredTodos.toggle()
-                }
-                
-                if let hideSecuredButton = navigationItem.rightBarButtonItems?.last {
-                    hideSecuredButton.image = hideSecuredTodos ? UIImage(systemName: "eye.slash.fill") : UIImage(systemName: "eye")
-                }
-                hideSecuredTodos ? fetchInitialTodos() : fetchAllTodos()
-            }
-        }
-    }
-    
     @objc private func openInbox() {
         let inboxVC = InboxTodosViewController()
         inboxVC.databaseManager = databaseManager
@@ -87,7 +69,7 @@ class TodoTasksViewController: UIViewController {
 // MARK: - Methods for interacting with the db
 private extension TodoTasksViewController {
     @objc func handleTodoAdded() {
-        fetchInitialTodos()
+        fetchAllTodos()
     }
     
     @objc func addNewTask() {
@@ -107,11 +89,6 @@ private extension TodoTasksViewController {
         
         modalVC.modalPresentationStyle = .automatic
         present(modalVC, animated: true, completion: nil)
-    }
-    
-    func fetchInitialTodos() {
-        todos = databaseManager?.getInsecuredTodoTasks() ?? []
-        tableView.reloadData()
     }
     
     func fetchAllTodos() {
@@ -163,7 +140,18 @@ extension TodoTasksViewController: UITableViewDataSource {
     }
 }
 
-extension TodoTasksViewController: UITableViewDelegate {}
+extension TodoTasksViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if biometryAvailability {
+            Task {
+                let faceIdSucceeded = await AuthManager.shared.authenticateWithFaceId()
+                if faceIdSucceeded {
+                    
+                }
+            }
+        }
+    }
+}
 
 #Preview {
     TodoTasksViewController()
