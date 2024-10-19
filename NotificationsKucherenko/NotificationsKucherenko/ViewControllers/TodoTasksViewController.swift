@@ -12,19 +12,16 @@ class TodoTasksViewController: UIViewController {
     private var databaseManager: (any DatabaseManager)?
     private var todos: [TodoTaskProtocol] = []
     private var hideSecuredTodos = true
-    private var biometryAvailability = false
     
     private let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        databaseManager = CoreDataManager.shared
+        databaseManager = RealmDataManager.shared
         Task {
             await NotificationsManager.shared.requestPermission()
         }
-        biometryAvailability = AuthManager.shared.checkFaceId()
-        print("Biometry availability: \(biometryAvailability)")
         fetchAllTodos()
         setupTableHeaderView()
         setupTableView()
@@ -95,6 +92,21 @@ private extension TodoTasksViewController {
         todos = databaseManager?.getAllTodoTasks() ?? []
         tableView.reloadData()
     }
+    
+    func retrieveSecuredTask(taskId: String) {
+        AuthManager.shared.authenticateAndRetrieveTask(taskId: taskId) { taskText in
+            if let taskText = taskText {
+                self.showTaskText(taskText)
+            }
+        }
+    }
+    
+    func showTaskText(_ taskText: String) {
+        let alert = UIAlertController(title: "Secured Task", message: taskText, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - TaskDoneProtocol conformance for setting task as done
@@ -142,13 +154,8 @@ extension TodoTasksViewController: UITableViewDataSource {
 
 extension TodoTasksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if biometryAvailability {
-            Task {
-                let faceIdSucceeded = await AuthManager.shared.authenticateWithFaceId()
-                if faceIdSucceeded {
-                    
-                }
-            }
+        if todos[indexPath.row].isSecured {
+            retrieveSecuredTask(taskId: todos[indexPath.row].id.uuidString)
         }
     }
 }

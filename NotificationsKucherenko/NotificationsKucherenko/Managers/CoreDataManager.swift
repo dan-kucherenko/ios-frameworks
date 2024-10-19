@@ -44,6 +44,7 @@ class CoreDataManager: DatabaseManager {
                 taskId: todo.id.uuidString,
                 taskText: name
             )
+            todo.name = ""
         } else {
             todo.name = name
         }
