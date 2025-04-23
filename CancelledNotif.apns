@@ -1,0 +1,12 @@
+{
+    "aps": {
+        "alert": {
+            "title": "New Task Cancelled",
+            "body": "New task to be cancelled"
+        },
+        "category": "TODO_TASK",
+        "sound": "default"
+    },
+    "dueDate": "15.10.2024 23:59",
+    "Simulator Target Bundle": "ua.com.kucherenko.NotificationsKucherenko"
+}
